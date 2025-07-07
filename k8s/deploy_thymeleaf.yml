@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skcc-spring-template
+  labels:
+    app: skcc-spring-template
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skcc-spring-template
+  template:
+    metadata:
+      labels:
+        app: skcc-spring-template
+    spec:
+      containers:
+        - name: skcc-spring-template-container
+          image: passionbh/skcc-spring-template:v.0.2
+          ports:
+            - containerPort: 8080

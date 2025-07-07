@@ -1,0 +1,1483 @@
+{
+	"info": {
+		"_postman_id": "a6779a49-eccf-4e90-9a0b-0efddba44af1",
+		"name": "ITSM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8051371"
+	},
+	"item": [
+		{
+			"name": "초기 세팅",
+			"item": [
+				{
+					"name": "[사용자] ADMIN 생성",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@sk.com\",\r\n  \"username\": \"sk-admin\",\r\n  \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/signup",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[사용자] USER 생성",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"user@sk.com\",\r\n  \"username\": \"sk-user\",\r\n  \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/signup",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[사용자] ADMIN 변경",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// //👉 url 및 쿠키 설정\r",
+									"// const url = '{{domain}}/api/users/authenticate';\r",
+									"// const headers = {\r",
+									"//     'Content-type':'application/json'\r",
+									"// };\r",
+									"\r",
+									"// //👉 API 양식에 맞추어 Body에 필요한 값 넣기\r",
+									"// const data = {\r",
+									"//     'email': 'admin@sk.com',\r",
+									"//     'password': 'admin'\r",
+									"// };\r",
+									"\r",
+									"// //👉 Request 객체 만들기\r",
+									"// const requestSettings = {\r",
+									"//     url: url,\r",
+									"//     method: 'POST',\r",
+									"//     header: headers,\r",
+									"//     body: JSON.stringify(data)\r",
+									"// };\r",
+									"\r",
+									"// //👉 pm.sendRequest로 API를 호출할 수 있다\r",
+									"// //👉 callback을 전달해서 요청을 받았을 때 할 동작을 설정한다.\r",
+									"// pm.sendRequest(requestSettings, function (err, response) {\r",
+									"//     //👉 응답을 파싱해서 Collection 변수에 저장할 수 있다.\r",
+									"//     let json = response.json();\r",
+									"//     console.log(json) //👉 콘솔에 출력할 수도 있다.    \r",
+									"//     pm.collectionVariables.set(\"admin_token\", json.data.accessToken);\r",
+									"// });\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@sk.com\",\r\n    \"role\": \"ADMIN\",\r\n    \"status\": \"ACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[사용자] USER 변경",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// //👉 url 및 쿠키 설정\r",
+									"// const url = pm.collectionVariables.get('domain')+'/api/users/authenticate';\r",
+									"// const headers = {\r",
+									"//     'Content-type':'application/json'\r",
+									"// };\r",
+									"\r",
+									"// //👉 API 양식에 맞추어 Body에 필요한 값 넣기\r",
+									"// const data = {\r",
+									"//     'email': 'admin@sk.com',\r",
+									"//     'password': 'admin'\r",
+									"// };\r",
+									"\r",
+									"// //👉 Request 객체 만들기\r",
+									"// const requestSettings = {\r",
+									"//     url: url,\r",
+									"//     method: 'POST',\r",
+									"//     header: headers,\r",
+									"//     body: JSON.stringify(data)\r",
+									"// };\r",
+									"\r",
+									"// //👉 pm.sendRequest로 API를 호출할 수 있다\r",
+									"// //👉 callback을 전달해서 요청을 받았을 때 할 동작을 설정한다.\r",
+									"// pm.sendRequest(requestSettings, function (err, response) {\r",
+									"//     //👉 응답을 파싱해서 Collection 변수에 저장할 수 있다.\r",
+									"//     let json = response.json();\r",
+									"//     console.log(json) //👉 콘솔에 출력할 수도 있다.    \r",
+									"//     pm.collectionVariables.set(\"admin_token\", json.data.accessToken);\r",
+									"// });\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@sk.com\",\r\n    \"role\": \"USER\",\r\n    \"status\": \"ACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "사용자",
+			"item": [
+				{
+					"name": "[사용자] 가입",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@sk.com\",\r\n  \"username\": \"sk-admin\",\r\n  \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/signup",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[사용자] 가입 [필수값누락]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin2@sk.com\",\r\n  \"username\": \"sk-admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/signup",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[사용자] 정보 변경",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@sk.com\",\r\n    \"role\": \"USER\",\r\n    \"status\": \"ACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[사용자] 인증 [일반]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"user@sk.com\",\r\n  \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/authenticate",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[사용자] 전체조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[사용자] ADMIN 사용자 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/users/admin?page=1&size=3",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"admin"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "인증",
+			"item": [
+				{
+					"name": "인증 대상, 토큰 미존재",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/users/admin?page=1&size=3",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"admin"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "인증 대상, 토큰 존재, 서명 값 유효하지 않은 경우",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{INVALID_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/users/admin?page=1&size=3",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"admin"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "인증 대상, 토큰 존재, 만료된 토큰",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{EXPIRED_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/users/admin?page=1&size=3",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"admin"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "인증 대상, 권한",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/users/admin?page=1&size=3",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"admin"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "파일",
+			"item": [
+				{
+					"name": "[파일] 단일 업로드 (정책:임시)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/10117/Desktop/한글_파일.txt"
+								},
+								{
+									"key": "policyKey",
+									"value": "temp",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{domain}}/api/files/upload",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[파일] 멀티 업로드 (정책:문서)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "policyKey",
+									"value": "document",
+									"type": "text"
+								},
+								{
+									"key": "files",
+									"type": "file",
+									"src": [
+										"/C:/Users/10117/Downloads/건강보험 자격득실 확인서.pdf",
+										"/C:/Users/10117/Downloads/08_-방향성-탐색-_2_.pdf"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "{{domain}}/api/files/upload/multiple",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"upload",
+								"multiple"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[파일] 다운로드 id로",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 24\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/files/download",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"download"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[파일] 다운로드 파일경로로",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 24\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/files/download",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"download"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "코드",
+			"item": [
+				{
+					"name": "[코드] 생성",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"code\": \"CODE-0001\",\r\n  \"codeName\": \"코드-0001\",\r\n  \"parentCodeId\": null,\r\n  \"description\": \"임시 생성 코드\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/codes",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"codes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[코드] ID로 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/codes/1?withChild=false",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"codes",
+								"1"
+							],
+							"query": [
+								{
+									"key": "withChild",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[코드] 전체 조회(사이즈 옵션)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/codes?size=5&page=3",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"codes"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "page",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[코드] 조건 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/codes?code=CODE-0001&withChild=true",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"codes"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "CODE-0001"
+								},
+								{
+									"key": "withChild",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[코드] 업데이트",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"code\": \"CODE-0001\",\r\n    \"codeName\": \"코드-0001\",\r\n    \"parentCodeId\": null,\r\n    \"seq\": 1,\r\n    \"description\": null,\r\n    \"delYn\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/codes",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"codes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "캐시",
+			"item": [
+				{
+					"name": "[캐시] 조회 - (부모 코드명)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/codes/cache/PARENT_11",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"codes",
+								"cache",
+								"PARENT_11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[캐시] 초기화",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/cache/clear/code",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"cache",
+								"clear",
+								"code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[캐시] 삭제",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJ1aWQiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE3MzkxNzAxNjEsImV4cCI6MTczOTE3MTk2MX0.VoQ5UNgFLItyN_2bvtz6ZHAUbSTXMYeZeBUWpRakQ0Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/cache/evict/code/PARENT_1",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"cache",
+								"evict",
+								"code",
+								"PARENT_1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "로그",
+			"item": [
+				{
+					"name": "[로그] 로그 테스트",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/log/1",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"log",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "예외",
+			"item": [
+				{
+					"name": "[예외] 로그인 예외 한국어",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@gmail.com\",\r\n    \"password\": \"12341111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/authenticate",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[예외] 로그인 예외 영어",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"notExist\",\r\n    \"password\": \"123411\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/authenticate",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "컨텍스트",
+			"item": [
+				{
+					"name": "데이터 저장",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"하하호호\",\r\n    \"age\" : 30\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/context/set/key1",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"context",
+								"set",
+								"key1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "데이터 가져오기",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/context/get/key1",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"context",
+								"get",
+								"key1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "데이터 가져오기 - 타사용자",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/context/get/key1",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"context",
+								"get",
+								"key1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "메시징",
+			"item": [
+				{
+					"name": "발행[큐]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"destination\":\"code.new\",\r\n    \"message\": \"신규코드 생성 됨\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/messaging/pub",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"messaging",
+								"pub"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "발행[교환기 & 큐]",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"destination\":\"test-queue\",\r\n    \"message\": \"hohohoho\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/messaging/pub",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"messaging",
+								"pub"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "구독",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"destination\":\"test-queue\",\r\n    \"message\": \"hohohoho\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/messaging/pub",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"messaging",
+								"pub"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pull 메시지",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN_INF}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"destination\":\"test-queue\",\r\n    \"message\": \"hohohoho\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/api/messaging/subSync",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"messaging",
+								"subSync"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "admin_token",
+			"value": ""
+		}
+	]
+}
