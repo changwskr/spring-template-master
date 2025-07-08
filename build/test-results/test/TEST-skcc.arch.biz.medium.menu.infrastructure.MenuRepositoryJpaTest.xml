@@ -1,0 +1,2118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2025-07-08T04:43:22" hostname="SKCC24N00414" time="0.565">
+  <properties/>
+  <testcase name="메뉴_조건_검색()" classname="skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest" time="0.216"/>
+  <testcase name="형제_순서_변경_1에서_2()" classname="skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest" time="0.126"/>
+  <testcase name="형제_순서_변경_1에서_3()" classname="skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest" time="0.025"/>
+  <testcase name="신규_자식_메뉴순서채번()" classname="skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest" time="0.027"/>
+  <testcase name="신규_루트_메뉴순서채번()" classname="skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest" time="0.01"/>
+  <testcase name="루트_메뉴_캐시_적재_확인()" classname="skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest" time="0.018"/>
+  <testcase name="ID로_하위계층이_포함된_도메인반환()" classname="skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest" time="0.013"/>
+  <testcase name="ID로_하위계층_모두_조회()" classname="skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest" time="0.009"/>
+  <testcase name="메뉴_데이터_부모_변경데이터_확인()" classname="skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest" time="0.114"/>
+  <system-out><![CDATA[2025-07-08T13:43:20.822+09:00  INFO 24308 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest]: MenuRepositoryJpaTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-08T13:43:21.287+09:00  INFO 24308 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration skcc.arch.SkccSpringApplication for test class skcc.arch.biz.medium.menu.infrastructure.MenuRepositoryJpaTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.1)
+
+2025-07-08T13:43:21.309+09:00  INFO 24308 --- [    Test worker] s.a.b.m.m.i.MenuRepositoryJpaTest        : Starting MenuRepositoryJpaTest using Java 21.0.4 with PID 24308 (started by Administrator in C:\Users\Administrator\Desktop\cursor\skcc-spring-template-master)
+2025-07-08T13:43:21.309+09:00  INFO 24308 --- [    Test worker] s.a.b.m.m.i.MenuRepositoryJpaTest        : No active profile set, falling back to 1 default profile: "default"
+2025-07-08T13:43:21.980+09:00  INFO 24308 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-07-08T13:43:21.980+09:00  INFO 24308 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-08T13:43:22.350+09:00  INFO 24308 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 372 ms. Found 7 JPA repository interfaces.
+2025-07-08T13:43:22.350+09:00  INFO 24308 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2025-07-08T13:43:22.365+09:00  INFO 24308 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2025-07-08T13:43:22.365+09:00  INFO 24308 --- [    Test worker] c.g.g.b.j.d.p6spy.P6SpyConfiguration     : P6Spy modulelist is overridden, some p6spy configuration features will not be applied
+2025-07-08T13:43:22.549+09:00  INFO 24308 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-08T13:43:22.552+09:00  INFO 24308 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-07-08T13:43:22.560+09:00  INFO 24308 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-08T13:43:22.561+09:00  INFO 24308 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'p6SpyDataSourceDecorator [com.p6spy.engine.spy.P6DataSource] -> dataSource [org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory$EmbeddedDataSourceProxy]']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+Hibernate: 
+    create global temporary table HTE_users(rn_ integer not null, created_date timestamp(6), id bigint, last_modified_date timestamp(6), email varchar(255), password varchar(255), username varchar(255), status enum ('ACTIVE', 'INACTIVE', 'PENDING'), primary key (rn_)) TRANSACTIONAL
+2025-07-08T13:43:22.703+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802703 | took 0ms | statement | connection 14| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+create global temporary table HTE_users(rn_ integer not null, created_date timestamp(6), id bigint, last_modified_date timestamp(6), email varchar(255), password varchar(255), username varchar(255), status enum ('ACTIVE','INACTIVE','PENDING'), primary key (rn_)) TRANSACTIONAL
+create global temporary table HTE_users(rn_ integer not null, created_date timestamp(6), id bigint, last_modified_date timestamp(6), email varchar(255), password varchar(255), username varchar(255), status enum ('ACTIVE','INACTIVE','PENDING'), primary key (rn_)) TRANSACTIONAL;
+2025-07-08T13:43:22.716+09:00  INFO 24308 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    drop table if exists codes cascade 
+2025-07-08T13:43:22.717+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802717 | took 0ms | statement | connection 15| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    drop table if exists codes cascade 
+
+    drop table if exists codes cascade ;
+Hibernate: 
+    drop table if exists files cascade 
+2025-07-08T13:43:22.717+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802717 | took 0ms | statement | connection 15| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    drop table if exists files cascade 
+
+    drop table if exists files cascade ;
+Hibernate: 
+    drop table if exists menu_roles cascade 
+2025-07-08T13:43:22.717+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802717 | took 0ms | statement | connection 15| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    drop table if exists menu_roles cascade 
+
+    drop table if exists menu_roles cascade ;
+Hibernate: 
+    drop table if exists menus cascade 
+2025-07-08T13:43:22.717+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802717 | took 0ms | statement | connection 15| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    drop table if exists menus cascade 
+
+    drop table if exists menus cascade ;
+Hibernate: 
+    drop table if exists roles cascade 
+2025-07-08T13:43:22.718+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802718 | took 0ms | statement | connection 15| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    drop table if exists roles cascade 
+
+    drop table if exists roles cascade ;
+Hibernate: 
+    drop table if exists user_roles cascade 
+2025-07-08T13:43:22.718+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802718 | took 0ms | statement | connection 15| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    drop table if exists user_roles cascade 
+
+    drop table if exists user_roles cascade ;
+Hibernate: 
+    drop table if exists users cascade 
+2025-07-08T13:43:22.718+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802718 | took 0ms | statement | connection 15| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    drop table if exists users cascade 
+
+    drop table if exists users cascade ;
+Hibernate: 
+    drop sequence if exists users_seq
+2025-07-08T13:43:22.718+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802718 | took 0ms | statement | connection 15| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    drop sequence if exists users_seq
+
+    drop sequence if exists users_seq;
+Hibernate: 
+    create sequence users_seq start with 1 increment by 50
+2025-07-08T13:43:22.719+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802719 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    create sequence users_seq start with 1 increment by 50
+
+    create sequence users_seq start with 1 increment by 50;
+Hibernate: 
+    create table codes (
+        del_yn boolean not null,
+        seq integer not null,
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        parent_code_id bigint,
+        code varchar(50) not null unique,
+        code_name varchar(100) not null,
+        description varchar(255),
+        primary key (id)
+    )
+2025-07-08T13:43:22.720+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802720 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    create table codes (
+        del_yn boolean not null,
+        seq integer not null,
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        parent_code_id bigint,
+        code varchar(50) not null unique,
+        code_name varchar(100) not null,
+        description varchar(255),
+        primary key (id)
+    )
+
+    create table codes (
+        del_yn boolean not null,
+        seq integer not null,
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        parent_code_id bigint,
+        code varchar(50) not null unique,
+        code_name varchar(100) not null,
+        description varchar(255),
+        primary key (id)
+    );
+Hibernate: 
+    create table files (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        size bigint not null,
+        dir_path varchar(100) not null,
+        enc_name varchar(100),
+        org_name varchar(100) not null,
+        primary key (id)
+    )
+2025-07-08T13:43:22.721+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802721 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    create table files (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        size bigint not null,
+        dir_path varchar(100) not null,
+        enc_name varchar(100),
+        org_name varchar(100) not null,
+        primary key (id)
+    )
+
+    create table files (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        size bigint not null,
+        dir_path varchar(100) not null,
+        enc_name varchar(100),
+        org_name varchar(100) not null,
+        primary key (id)
+    );
+Hibernate: 
+    create table menu_roles (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        menu_id bigint not null,
+        role_id bigint not null,
+        primary key (id)
+    )
+2025-07-08T13:43:22.721+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802721 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    create table menu_roles (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        menu_id bigint not null,
+        role_id bigint not null,
+        primary key (id)
+    )
+
+    create table menu_roles (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        menu_id bigint not null,
+        role_id bigint not null,
+        primary key (id)
+    );
+Hibernate: 
+    create table menus (
+        end_date date,
+        is_deleted boolean not null,
+        menu_order integer not null,
+        start_date date,
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        parent_id bigint,
+        menu_url varchar(512),
+        name varchar(255) not null,
+        primary key (id)
+    )
+2025-07-08T13:43:22.722+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802722 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    create table menus (
+        end_date date,
+        is_deleted boolean not null,
+        menu_order integer not null,
+        start_date date,
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        parent_id bigint,
+        menu_url varchar(512),
+        name varchar(255) not null,
+        primary key (id)
+    )
+
+    create table menus (
+        end_date date,
+        is_deleted boolean not null,
+        menu_order integer not null,
+        start_date date,
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        parent_id bigint,
+        menu_url varchar(512),
+        name varchar(255) not null,
+        primary key (id)
+    );
+Hibernate: 
+    create table roles (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        name varchar(255) not null,
+        role_id varchar(255) not null,
+        primary key (id)
+    )
+2025-07-08T13:43:22.723+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802722 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    create table roles (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        name varchar(255) not null,
+        role_id varchar(255) not null,
+        primary key (id)
+    )
+
+    create table roles (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        name varchar(255) not null,
+        role_id varchar(255) not null,
+        primary key (id)
+    );
+Hibernate: 
+    create table user_roles (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        role_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+2025-07-08T13:43:22.723+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802723 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    create table user_roles (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        role_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+
+    create table user_roles (
+        created_date timestamp(6) not null,
+        id bigint generated by default as identity,
+        last_modified_date timestamp(6) not null,
+        role_id bigint not null,
+        user_id bigint not null,
+        primary key (id)
+    );
+Hibernate: 
+    create table users (
+        created_date timestamp(6) not null,
+        id bigint not null,
+        last_modified_date timestamp(6) not null,
+        email varchar(255),
+        password varchar(255),
+        username varchar(255),
+        status enum ('ACTIVE','INACTIVE','PENDING'),
+        primary key (id)
+    )
+2025-07-08T13:43:22.723+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802723 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    create table users (
+        created_date timestamp(6) not null,
+        id bigint not null,
+        last_modified_date timestamp(6) not null,
+        email varchar(255),
+        password varchar(255),
+        username varchar(255),
+        status enum ('ACTIVE','INACTIVE','PENDING'),
+        primary key (id)
+    )
+
+    create table users (
+        created_date timestamp(6) not null,
+        id bigint not null,
+        last_modified_date timestamp(6) not null,
+        email varchar(255),
+        password varchar(255),
+        username varchar(255),
+        status enum ('ACTIVE','INACTIVE','PENDING'),
+        primary key (id)
+    );
+Hibernate: 
+    alter table if exists codes 
+       add constraint FKix0jc6dhq163tyn8gdf9iu4hh 
+       foreign key (parent_code_id) 
+       references codes
+2025-07-08T13:43:22.724+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802724 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    alter table if exists codes 
+       add constraint FKix0jc6dhq163tyn8gdf9iu4hh 
+       foreign key (parent_code_id) 
+       references codes
+
+    alter table if exists codes 
+       add constraint FKix0jc6dhq163tyn8gdf9iu4hh 
+       foreign key (parent_code_id) 
+       references codes;
+Hibernate: 
+    alter table if exists menu_roles 
+       add constraint FKsyib35y32a5303ry88npak6us 
+       foreign key (menu_id) 
+       references menus
+2025-07-08T13:43:22.725+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802725 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    alter table if exists menu_roles 
+       add constraint FKsyib35y32a5303ry88npak6us 
+       foreign key (menu_id) 
+       references menus
+
+    alter table if exists menu_roles 
+       add constraint FKsyib35y32a5303ry88npak6us 
+       foreign key (menu_id) 
+       references menus;
+Hibernate: 
+    alter table if exists menu_roles 
+       add constraint FKk7bdy1lc9xbitmcejy3q4qm41 
+       foreign key (role_id) 
+       references roles
+2025-07-08T13:43:22.726+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802726 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    alter table if exists menu_roles 
+       add constraint FKk7bdy1lc9xbitmcejy3q4qm41 
+       foreign key (role_id) 
+       references roles
+
+    alter table if exists menu_roles 
+       add constraint FKk7bdy1lc9xbitmcejy3q4qm41 
+       foreign key (role_id) 
+       references roles;
+Hibernate: 
+    alter table if exists menus 
+       add constraint FKcctt24h6nix02cxipt9rbqtnc 
+       foreign key (parent_id) 
+       references menus
+2025-07-08T13:43:22.727+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802727 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    alter table if exists menus 
+       add constraint FKcctt24h6nix02cxipt9rbqtnc 
+       foreign key (parent_id) 
+       references menus
+
+    alter table if exists menus 
+       add constraint FKcctt24h6nix02cxipt9rbqtnc 
+       foreign key (parent_id) 
+       references menus;
+Hibernate: 
+    alter table if exists user_roles 
+       add constraint FKh8ciramu9cc9q3qcqiv4ue8a6 
+       foreign key (role_id) 
+       references roles
+2025-07-08T13:43:22.728+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802728 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    alter table if exists user_roles 
+       add constraint FKh8ciramu9cc9q3qcqiv4ue8a6 
+       foreign key (role_id) 
+       references roles
+
+    alter table if exists user_roles 
+       add constraint FKh8ciramu9cc9q3qcqiv4ue8a6 
+       foreign key (role_id) 
+       references roles;
+Hibernate: 
+    alter table if exists user_roles 
+       add constraint FKhfh9dx7w3ubf1co1vdev94g3f 
+       foreign key (user_id) 
+       references users
+2025-07-08T13:43:22.729+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802729 | took 0ms | statement | connection 16| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+    alter table if exists user_roles 
+       add constraint FKhfh9dx7w3ubf1co1vdev94g3f 
+       foreign key (user_id) 
+       references users
+
+    alter table if exists user_roles 
+       add constraint FKhfh9dx7w3ubf1co1vdev94g3f 
+       foreign key (user_id) 
+       references users;
+2025-07-08T13:43:22.730+09:00  INFO 24308 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-08T13:43:22.801+09:00  INFO 24308 --- [    Test worker] s.a.b.m.m.i.MenuRepositoryJpaTest        : Started MenuRepositoryJpaTest in 1.511 seconds (process running for 25.403)
+2025-07-08T13:43:22.816+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802816 | took 1ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null);
+2025-07-08T13:43:22.817+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802817 | took 0ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1);
+2025-07-08T13:43:22.817+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802817 | took 0ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1);
+2025-07-08T13:43:22.817+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802817 | took 0ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1);
+2025-07-08T13:43:22.817+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802817 | took 0ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4);
+2025-07-08T13:43:22.817+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802817 | took 0ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4);
+2025-07-08T13:43:22.817+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802817 | took 0ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null);
+2025-07-08T13:43:22.817+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802817 | took 0ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7);
+2025-07-08T13:43:22.817+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802817 | took 0ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7);
+2025-07-08T13:43:22.817+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802817 | took 0ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null);
+Hibernate: 
+    select
+        me1_0.id,
+        me1_0.created_date,
+        me1_0.end_date,
+        me1_0.is_deleted,
+        me1_0.last_modified_date,
+        me1_0.menu_order,
+        me1_0.menu_url,
+        me1_0.name,
+        me1_0.parent_id,
+        me1_0.start_date 
+    from
+        menus me1_0 
+    where
+        me1_0.name like ? escape '!' 
+        and me1_0.is_deleted=? 
+        and me1_0.id is not null 
+    order by
+        me1_0.menu_order,
+        me1_0.name 
+    offset
+        ? rows 
+    fetch
+        first ? rows only
+2025-07-08T13:43:22.867+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802867 | took 1ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.name like ? escape '!' and me1_0.is_deleted=? and me1_0.id is not null order by me1_0.menu_order,me1_0.name offset ? rows fetch first ? rows only
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.name like '%1-3%' escape '!' and me1_0.is_deleted=false and me1_0.id is not null order by me1_0.menu_order,me1_0.name offset 0 rows fetch first 10 rows only;
+Hibernate: 
+    select
+        count(me1_0.id) 
+    from
+        menus me1_0 
+    where
+        me1_0.name like ? escape '!' 
+        and me1_0.is_deleted=? 
+        and me1_0.id is not null
+2025-07-08T13:43:22.951+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949802951 | took 3ms | statement | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+select count(me1_0.id) from menus me1_0 where me1_0.name like ? escape '!' and me1_0.is_deleted=? and me1_0.id is not null
+select count(me1_0.id) from menus me1_0 where me1_0.name like '%1-3%' escape '!' and me1_0.is_deleted=false and me1_0.id is not null;
+2025-07-08T13:43:23.025+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803025 | took 0ms | rollback | connection 17| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+;
+2025-07-08T13:43:23.030+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803030 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null);
+2025-07-08T13:43:23.031+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803031 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1);
+2025-07-08T13:43:23.031+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803031 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1);
+2025-07-08T13:43:23.032+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803032 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1);
+2025-07-08T13:43:23.032+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803032 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4);
+2025-07-08T13:43:23.032+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803032 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4);
+2025-07-08T13:43:23.033+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803033 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null);
+2025-07-08T13:43:23.033+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803033 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7);
+2025-07-08T13:43:23.033+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803033 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7);
+2025-07-08T13:43:23.033+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803033 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null);
+Hibernate: 
+    select
+        me1_0.id,
+        me1_0.created_date,
+        me1_0.end_date,
+        me1_0.is_deleted,
+        me1_0.last_modified_date,
+        me1_0.menu_order,
+        me1_0.menu_url,
+        me1_0.name,
+        me1_0.parent_id,
+        me1_0.start_date 
+    from
+        menus me1_0 
+    where
+        me1_0.id=?
+2025-07-08T13:43:23.046+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803046 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.id=?
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.id=1;
+Hibernate: 
+    update
+        menus me1_0 
+    set
+        menu_order=(rownum()+cast(? as bigint)) 
+    where
+        me1_0.menu_order<=? 
+        and me1_0.id<>? 
+        and me1_0.parent_id=?
+2025-07-08T13:43:23.089+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803089 | took 1ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+update menus me1_0 set menu_order=(rownum()+cast(? as bigint)) where me1_0.menu_order<=? and me1_0.id<>? and me1_0.parent_id=?
+update menus me1_0 set menu_order=(rownum()+cast(0 as bigint)) where me1_0.menu_order<=2 and me1_0.id<>2 and me1_0.parent_id=1;
+Hibernate: 
+    update
+        menus me1_0 
+    set
+        menu_order=(rownum()+cast(? as bigint)) 
+    where
+        me1_0.menu_order>=? 
+        and me1_0.id<>? 
+        and me1_0.parent_id=?
+2025-07-08T13:43:23.092+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803092 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+update menus me1_0 set menu_order=(rownum()+cast(? as bigint)) where me1_0.menu_order>=? and me1_0.id<>? and me1_0.parent_id=?
+update menus me1_0 set menu_order=(rownum()+cast(2 as bigint)) where me1_0.menu_order>=2 and me1_0.id<>2 and me1_0.parent_id=1;
+Hibernate: 
+    WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (      SELECT
+        id,             name,             parent_id,             menu_order,             menu_url,             start_date,             end_date,             created_date,             last_modified_date,             is_deleted,             1 AS depth,             CAST(menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus      
+    WHERE
+        id = ?       
+    UNION
+    ALL       SELECT
+        child.id,             child.name,             child.parent_id,             child.menu_order,             child.menu_url,             child.start_date,             child.end_date,             child.created_date,             child.last_modified_date,             child.is_deleted,             ct.depth + 1 AS depth,             ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus child               
+    INNER JOIN
+        menu_tree ct 
+            ON child.parent_id = ct.id  )  SELECT
+            id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url       ,
+            start_date       ,
+            end_date       ,
+            created_date       ,
+            last_modified_date         ,
+            is_deleted 
+    FROM
+        menu_tree 
+    ORDER BY
+        menu_order_path 
+2025-07-08T13:43:23.135+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803135 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = ?
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = 3
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+;
+Hibernate: 
+    WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (      SELECT
+        id,             name,             parent_id,             menu_order,             menu_url,             start_date,             end_date,             created_date,             last_modified_date,             is_deleted,             1 AS depth,             CAST(menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus      
+    WHERE
+        id = ?       
+    UNION
+    ALL       SELECT
+        child.id,             child.name,             child.parent_id,             child.menu_order,             child.menu_url,             child.start_date,             child.end_date,             child.created_date,             child.last_modified_date,             child.is_deleted,             ct.depth + 1 AS depth,             ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus child               
+    INNER JOIN
+        menu_tree ct 
+            ON child.parent_id = ct.id  )  SELECT
+            id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url       ,
+            start_date       ,
+            end_date       ,
+            created_date       ,
+            last_modified_date         ,
+            is_deleted 
+    FROM
+        menu_tree 
+    ORDER BY
+        menu_order_path 
+2025-07-08T13:43:23.149+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803149 | took 0ms | statement | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = ?
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = 4
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+;
+2025-07-08T13:43:23.152+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803152 | took 0ms | rollback | connection 18| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+;
+2025-07-08T13:43:23.156+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803156 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null);
+2025-07-08T13:43:23.156+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803156 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1);
+2025-07-08T13:43:23.157+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803157 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1);
+2025-07-08T13:43:23.157+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803157 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1);
+2025-07-08T13:43:23.157+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803157 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4);
+2025-07-08T13:43:23.157+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803157 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4);
+2025-07-08T13:43:23.157+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803157 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null);
+2025-07-08T13:43:23.157+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803157 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7);
+2025-07-08T13:43:23.157+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803157 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7);
+2025-07-08T13:43:23.158+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803158 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null);
+Hibernate: 
+    select
+        me1_0.id,
+        me1_0.created_date,
+        me1_0.end_date,
+        me1_0.is_deleted,
+        me1_0.last_modified_date,
+        me1_0.menu_order,
+        me1_0.menu_url,
+        me1_0.name,
+        me1_0.parent_id,
+        me1_0.start_date 
+    from
+        menus me1_0 
+    where
+        me1_0.id=?
+2025-07-08T13:43:23.159+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803159 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.id=?
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.id=1;
+Hibernate: 
+    update
+        menus me1_0 
+    set
+        menu_order=(rownum()+cast(? as bigint)) 
+    where
+        me1_0.menu_order<=? 
+        and me1_0.id<>? 
+        and me1_0.parent_id=?
+2025-07-08T13:43:23.165+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803165 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+update menus me1_0 set menu_order=(rownum()+cast(? as bigint)) where me1_0.menu_order<=? and me1_0.id<>? and me1_0.parent_id=?
+update menus me1_0 set menu_order=(rownum()+cast(0 as bigint)) where me1_0.menu_order<=3 and me1_0.id<>2 and me1_0.parent_id=1;
+Hibernate: 
+    update
+        menus me1_0 
+    set
+        menu_order=(rownum()+cast(? as bigint)) 
+    where
+        me1_0.menu_order>=? 
+        and me1_0.id<>? 
+        and me1_0.parent_id=?
+2025-07-08T13:43:23.170+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803170 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+update menus me1_0 set menu_order=(rownum()+cast(? as bigint)) where me1_0.menu_order>=? and me1_0.id<>? and me1_0.parent_id=?
+update menus me1_0 set menu_order=(rownum()+cast(3 as bigint)) where me1_0.menu_order>=3 and me1_0.id<>2 and me1_0.parent_id=1;
+Hibernate: 
+    WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (      SELECT
+        id,             name,             parent_id,             menu_order,             menu_url,             start_date,             end_date,             created_date,             last_modified_date,             is_deleted,             1 AS depth,             CAST(menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus      
+    WHERE
+        id = ?       
+    UNION
+    ALL       SELECT
+        child.id,             child.name,             child.parent_id,             child.menu_order,             child.menu_url,             child.start_date,             child.end_date,             child.created_date,             child.last_modified_date,             child.is_deleted,             ct.depth + 1 AS depth,             ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus child               
+    INNER JOIN
+        menu_tree ct 
+            ON child.parent_id = ct.id  )  SELECT
+            id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url       ,
+            start_date       ,
+            end_date       ,
+            created_date       ,
+            last_modified_date         ,
+            is_deleted 
+    FROM
+        menu_tree 
+    ORDER BY
+        menu_order_path 
+2025-07-08T13:43:23.174+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803174 | took 1ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = ?
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = 3
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+;
+Hibernate: 
+    WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (      SELECT
+        id,             name,             parent_id,             menu_order,             menu_url,             start_date,             end_date,             created_date,             last_modified_date,             is_deleted,             1 AS depth,             CAST(menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus      
+    WHERE
+        id = ?       
+    UNION
+    ALL       SELECT
+        child.id,             child.name,             child.parent_id,             child.menu_order,             child.menu_url,             child.start_date,             child.end_date,             child.created_date,             child.last_modified_date,             child.is_deleted,             ct.depth + 1 AS depth,             ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus child               
+    INNER JOIN
+        menu_tree ct 
+            ON child.parent_id = ct.id  )  SELECT
+            id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url       ,
+            start_date       ,
+            end_date       ,
+            created_date       ,
+            last_modified_date         ,
+            is_deleted 
+    FROM
+        menu_tree 
+    ORDER BY
+        menu_order_path 
+2025-07-08T13:43:23.176+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803176 | took 0ms | statement | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = ?
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = 4
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+;
+2025-07-08T13:43:23.178+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803178 | took 0ms | rollback | connection 19| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+;
+2025-07-08T13:43:23.182+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803182 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null);
+2025-07-08T13:43:23.182+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803182 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1);
+2025-07-08T13:43:23.182+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803182 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1);
+2025-07-08T13:43:23.182+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803182 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1);
+2025-07-08T13:43:23.183+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803182 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4);
+2025-07-08T13:43:23.183+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803183 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4);
+2025-07-08T13:43:23.183+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803183 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null);
+2025-07-08T13:43:23.184+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803184 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7);
+2025-07-08T13:43:23.184+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803184 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7);
+2025-07-08T13:43:23.184+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803184 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null);
+Hibernate: 
+    select
+        me1_0.id,
+        me1_0.created_date,
+        me1_0.end_date,
+        me1_0.is_deleted,
+        me1_0.last_modified_date,
+        me1_0.menu_order,
+        me1_0.menu_url,
+        me1_0.name,
+        me1_0.parent_id,
+        me1_0.start_date 
+    from
+        menus me1_0 
+    where
+        me1_0.id=?
+2025-07-08T13:43:23.186+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803186 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.id=?
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.id=1;
+Hibernate: 
+    select
+        max(me1_0.menu_order) 
+    from
+        menus me1_0 
+    where
+        me1_0.parent_id=?
+2025-07-08T13:43:23.205+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803205 | took 0ms | statement | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+select max(me1_0.menu_order) from menus me1_0 where me1_0.parent_id=?
+select max(me1_0.menu_order) from menus me1_0 where me1_0.parent_id=1;
+2025-07-08T13:43:23.206+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803206 | took 0ms | rollback | connection 20| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+;
+2025-07-08T13:43:23.210+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803210 | took 0ms | statement | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null);
+2025-07-08T13:43:23.210+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803210 | took 0ms | statement | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1);
+2025-07-08T13:43:23.210+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803210 | took 0ms | statement | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1);
+2025-07-08T13:43:23.210+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803210 | took 0ms | statement | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1);
+2025-07-08T13:43:23.210+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803210 | took 0ms | statement | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4);
+2025-07-08T13:43:23.211+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803211 | took 0ms | statement | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4);
+2025-07-08T13:43:23.211+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803211 | took 0ms | statement | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null);
+2025-07-08T13:43:23.211+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803211 | took 0ms | statement | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7);
+2025-07-08T13:43:23.211+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803211 | took 0ms | statement | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7);
+2025-07-08T13:43:23.211+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803211 | took 0ms | statement | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null);
+Hibernate: 
+    select
+        max(me1_0.menu_order) 
+    from
+        menus me1_0 
+    where
+        me1_0.parent_id is null
+2025-07-08T13:43:23.215+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803215 | took 0ms | statement | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+select max(me1_0.menu_order) from menus me1_0 where me1_0.parent_id is null
+select max(me1_0.menu_order) from menus me1_0 where me1_0.parent_id is null;
+2025-07-08T13:43:23.217+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803217 | took 0ms | rollback | connection 21| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+;
+2025-07-08T13:43:23.221+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803221 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null);
+2025-07-08T13:43:23.221+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803221 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1);
+2025-07-08T13:43:23.221+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803221 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1);
+2025-07-08T13:43:23.221+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803221 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1);
+2025-07-08T13:43:23.222+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803222 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4);
+2025-07-08T13:43:23.222+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803222 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4);
+2025-07-08T13:43:23.222+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803222 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null);
+2025-07-08T13:43:23.222+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803222 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7);
+2025-07-08T13:43:23.222+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803222 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7);
+2025-07-08T13:43:23.222+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803222 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null);
+Hibernate: 
+    select
+        me1_0.id 
+    from
+        menus me1_0 
+    where
+        me1_0.parent_id is null 
+    order by
+        me1_0.menu_order,
+        me1_0.name
+2025-07-08T13:43:23.225+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803225 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+select me1_0.id from menus me1_0 where me1_0.parent_id is null order by me1_0.menu_order,me1_0.name
+select me1_0.id from menus me1_0 where me1_0.parent_id is null order by me1_0.menu_order,me1_0.name;
+Hibernate: 
+    WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (      SELECT
+        id,             name,             parent_id,             menu_order,             menu_url,             start_date,             end_date,             created_date,             last_modified_date,             is_deleted,             1 AS depth,             CAST(menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus      
+    WHERE
+        id = ?       
+    UNION
+    ALL       SELECT
+        child.id,             child.name,             child.parent_id,             child.menu_order,             child.menu_url,             child.start_date,             child.end_date,             child.created_date,             child.last_modified_date,             child.is_deleted,             ct.depth + 1 AS depth,             ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus child               
+    INNER JOIN
+        menu_tree ct 
+            ON child.parent_id = ct.id  )  SELECT
+            id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url       ,
+            start_date       ,
+            end_date       ,
+            created_date       ,
+            last_modified_date         ,
+            is_deleted 
+    FROM
+        menu_tree 
+    ORDER BY
+        menu_order_path 
+2025-07-08T13:43:23.228+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803228 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = ?
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = 1
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+;
+Hibernate: 
+    WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (      SELECT
+        id,             name,             parent_id,             menu_order,             menu_url,             start_date,             end_date,             created_date,             last_modified_date,             is_deleted,             1 AS depth,             CAST(menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus      
+    WHERE
+        id = ?       
+    UNION
+    ALL       SELECT
+        child.id,             child.name,             child.parent_id,             child.menu_order,             child.menu_url,             child.start_date,             child.end_date,             child.created_date,             child.last_modified_date,             child.is_deleted,             ct.depth + 1 AS depth,             ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus child               
+    INNER JOIN
+        menu_tree ct 
+            ON child.parent_id = ct.id  )  SELECT
+            id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url       ,
+            start_date       ,
+            end_date       ,
+            created_date       ,
+            last_modified_date         ,
+            is_deleted 
+    FROM
+        menu_tree 
+    ORDER BY
+        menu_order_path 
+2025-07-08T13:43:23.231+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803231 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = ?
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = 7
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+;
+Hibernate: 
+    WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (      SELECT
+        id,             name,             parent_id,             menu_order,             menu_url,             start_date,             end_date,             created_date,             last_modified_date,             is_deleted,             1 AS depth,             CAST(menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus      
+    WHERE
+        id = ?       
+    UNION
+    ALL       SELECT
+        child.id,             child.name,             child.parent_id,             child.menu_order,             child.menu_url,             child.start_date,             child.end_date,             child.created_date,             child.last_modified_date,             child.is_deleted,             ct.depth + 1 AS depth,             ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus child               
+    INNER JOIN
+        menu_tree ct 
+            ON child.parent_id = ct.id  )  SELECT
+            id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url       ,
+            start_date       ,
+            end_date       ,
+            created_date       ,
+            last_modified_date         ,
+            is_deleted 
+    FROM
+        menu_tree 
+    ORDER BY
+        menu_order_path 
+2025-07-08T13:43:23.234+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803234 | took 0ms | statement | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = ?
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = 10
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+;
+2025-07-08T13:43:23.236+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803236 | took 0ms | rollback | connection 22| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+;
+2025-07-08T13:43:23.239+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803239 | took 0ms | statement | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null);
+2025-07-08T13:43:23.239+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803239 | took 0ms | statement | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1);
+2025-07-08T13:43:23.240+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803239 | took 0ms | statement | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1);
+2025-07-08T13:43:23.240+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803240 | took 0ms | statement | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1);
+2025-07-08T13:43:23.240+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803240 | took 0ms | statement | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4);
+2025-07-08T13:43:23.240+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803240 | took 0ms | statement | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4);
+2025-07-08T13:43:23.240+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803240 | took 0ms | statement | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null);
+2025-07-08T13:43:23.240+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803240 | took 0ms | statement | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7);
+2025-07-08T13:43:23.240+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803240 | took 0ms | statement | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7);
+2025-07-08T13:43:23.240+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803240 | took 0ms | statement | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null);
+Hibernate: 
+    WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (      SELECT
+        id,             name,             parent_id,             menu_order,             menu_url,             start_date,             end_date,             created_date,             last_modified_date,             is_deleted,             1 AS depth,             CAST(menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus      
+    WHERE
+        id = ?       
+    UNION
+    ALL       SELECT
+        child.id,             child.name,             child.parent_id,             child.menu_order,             child.menu_url,             child.start_date,             child.end_date,             child.created_date,             child.last_modified_date,             child.is_deleted,             ct.depth + 1 AS depth,             ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus child               
+    INNER JOIN
+        menu_tree ct 
+            ON child.parent_id = ct.id  )  SELECT
+            id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url       ,
+            start_date       ,
+            end_date       ,
+            created_date       ,
+            last_modified_date         ,
+            is_deleted 
+    FROM
+        menu_tree 
+    ORDER BY
+        menu_order_path 
+2025-07-08T13:43:23.244+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803244 | took 0ms | statement | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = ?
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = 1
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+;
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | rollback | connection 23| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+;
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null);
+Hibernate: 
+    WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (      SELECT
+        id,             name,             parent_id,             menu_order,             menu_url,             start_date,             end_date,             created_date,             last_modified_date,             is_deleted,             1 AS depth,             CAST(menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus      
+    WHERE
+        id = ?       
+    UNION
+    ALL       SELECT
+        child.id,             child.name,             child.parent_id,             child.menu_order,             child.menu_url,             child.start_date,             child.end_date,             child.created_date,             child.last_modified_date,             child.is_deleted,             ct.depth + 1 AS depth,             ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus child               
+    INNER JOIN
+        menu_tree ct 
+            ON child.parent_id = ct.id  )  SELECT
+            id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url       ,
+            start_date       ,
+            end_date       ,
+            created_date       ,
+            last_modified_date         ,
+            is_deleted 
+    FROM
+        menu_tree 
+    ORDER BY
+        menu_order_path 
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = ?
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = 1
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+;
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | rollback | connection 24| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+;
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (1, '2025-03-14 06:35:24.916439', '2025-03-19 15:55:38.273821', '9999-12-31', false, 1, '/', '1', '2025-01-01', null);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (2, '2025-03-14 06:36:31.771015', '2025-03-14 06:36:31.771015', '9999-12-31', false, 1, '/', '1-1', '2025-01-01', 1);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (3, '2025-03-14 06:36:37.819609', '2025-03-14 06:36:37.819609', '9999-12-31', false, 2, '/', '1-2', '2025-01-01', 1);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (4, '2025-03-14 06:37:10.072592', '2025-03-14 06:37:10.072592', '9999-12-31', false, 3, '/', '1-3', '2025-01-01', 1);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (5, '2025-03-19 16:03:58.691796', '2025-03-19 20:54:03.270412', '9999-12-31', false, 1, '/1', '1-3-1', '2025-03-19', 4);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (6, '2025-03-19 20:36:20.750838', '2025-03-19 20:36:20.750838', '9999-12-31', false, 2, '/', '1-3-2', '2025-03-19', 4);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (7, '2025-03-19 20:37:27.670271', '2025-03-19 20:37:27.670271', '9999-12-31', false, 2, '/', '2', '2025-03-19', null);
+2025-07-08T13:43:23.249+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803249 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (8, '2025-03-19 20:37:46.867959', '2025-03-19 20:37:46.867959', '9999-12-31', false, 1, '/', '2-1', '2025-03-19', 7);
+2025-07-08T13:43:23.265+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803265 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (9, '2025-03-19 20:40:03.015545', '2025-03-19 20:40:03.015545', '9999-12-31', false, 2, '/', '2-2', '2025-03-19', 7);
+2025-07-08T13:43:23.265+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803265 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null)
+insert into PUBLIC.MENUS (ID, CREATED_DATE, LAST_MODIFIED_DATE, END_DATE, IS_DELETED, MENU_ORDER, MENU_URL, NAME, START_DATE, PARENT_ID) values (10, '2025-03-19 20:41:05.205364', '2025-03-19 20:41:05.205364', '9999-12-31', false, 3, '/', '3', '2025-03-19', null);
+Hibernate: 
+    select
+        me1_0.id,
+        me1_0.created_date,
+        me1_0.end_date,
+        me1_0.is_deleted,
+        me1_0.last_modified_date,
+        me1_0.menu_order,
+        me1_0.menu_url,
+        me1_0.name,
+        me1_0.parent_id,
+        me1_0.start_date 
+    from
+        menus me1_0 
+    where
+        me1_0.id=?
+2025-07-08T13:43:23.265+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803265 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.id=?
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.id=4;
+Hibernate: 
+    select
+        me1_0.id,
+        me1_0.created_date,
+        me1_0.end_date,
+        me1_0.is_deleted,
+        me1_0.last_modified_date,
+        me1_0.menu_order,
+        me1_0.menu_url,
+        me1_0.name,
+        me1_0.parent_id,
+        me1_0.start_date 
+    from
+        menus me1_0 
+    where
+        me1_0.id=?
+2025-07-08T13:43:23.265+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803265 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.id=?
+select me1_0.id,me1_0.created_date,me1_0.end_date,me1_0.is_deleted,me1_0.last_modified_date,me1_0.menu_order,me1_0.menu_url,me1_0.name,me1_0.parent_id,me1_0.start_date from menus me1_0 where me1_0.id=7;
+Hibernate: 
+    update
+        menus 
+    set
+        end_date=?,
+        is_deleted=?,
+        last_modified_date=?,
+        menu_order=?,
+        menu_url=?,
+        name=?,
+        parent_id=?,
+        start_date=? 
+    where
+        id=?
+2025-07-08T13:43:23.355+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803355 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+update menus set end_date=?,is_deleted=?,last_modified_date=?,menu_order=?,menu_url=?,name=?,parent_id=?,start_date=? where id=?
+update menus set end_date='9999-12-31T00:00:00.000+0900',is_deleted=false,last_modified_date='2025-07-08T13:43:23.314+0900',menu_order=1,menu_url='/',name='1-3',parent_id=7,start_date='2025-01-01T00:00:00.000+0900' where id=4;
+Hibernate: 
+    WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (      SELECT
+        id,             name,             parent_id,             menu_order,             menu_url,             start_date,             end_date,             created_date,             last_modified_date,             is_deleted,             1 AS depth,             CAST(menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus      
+    WHERE
+        id = ?       
+    UNION
+    ALL       SELECT
+        child.id,             child.name,             child.parent_id,             child.menu_order,             child.menu_url,             child.start_date,             child.end_date,             child.created_date,             child.last_modified_date,             child.is_deleted,             ct.depth + 1 AS depth,             ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path      
+    FROM
+        menus child               
+    INNER JOIN
+        menu_tree ct 
+            ON child.parent_id = ct.id  )  SELECT
+            id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url       ,
+            start_date       ,
+            end_date       ,
+            created_date       ,
+            last_modified_date         ,
+            is_deleted 
+    FROM
+        menu_tree 
+    ORDER BY
+        menu_order_path 
+2025-07-08T13:43:23.360+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803360 | took 0ms | statement | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = ?
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+
+WITH RECURSIVE menu_tree (id, name, parent_id, menu_order, menu_url, start_date, end_date, created_date, last_modified_date, is_deleted, depth, menu_order_path) AS (
+     SELECT id,
+            name,
+            parent_id,
+            menu_order,
+            menu_url,
+            start_date,
+            end_date,
+            created_date,
+            last_modified_date,
+            is_deleted,
+            1 AS depth,
+            CAST(menu_order AS VARCHAR) AS menu_order_path
+     FROM menus
+     WHERE id = 7
+
+     UNION ALL
+
+     SELECT child.id,
+            child.name,
+            child.parent_id,
+            child.menu_order,
+            child.menu_url,
+            child.start_date,
+            child.end_date,
+            child.created_date,
+            child.last_modified_date,
+            child.is_deleted,
+            ct.depth + 1 AS depth,
+            ct.menu_order_path || '-' || CAST(child.menu_order AS VARCHAR) AS menu_order_path
+     FROM menus child
+              INNER JOIN menu_tree ct ON child.parent_id = ct.id
+ )
+ SELECT id, name, parent_id, menu_order, menu_url
+      , start_date
+      , end_date
+      , created_date
+      , last_modified_date
+        , is_deleted
+FROM menu_tree
+ORDER BY menu_order_path
+;
+2025-07-08T13:43:23.375+09:00  INFO 24308 --- [    Test worker] p6spy                                    : #1751949803375 | took 0ms | rollback | connection 25| url jdbc:h2:mem:b5c5e46e-4f24-455b-b48b-970e99b9163e
+
+;
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="skcc.arch.biz.small.user.service.UserServiceTest" tests="8" skipped="0" failures="3" errors="0" timestamp="2025-07-08T04:43:27" hostname="SKCC24N00414" time="0.042">
+  <properties/>
+  <testcase name="정상적인_계정으로_토큰생성_검증()" classname="skcc.arch.biz.small.user.service.UserServiceTest" time="0.032"/>
+  <testcase name="userCreate_를_이용해_생성한다()" classname="skcc.arch.biz.small.user.service.UserServiceTest" time="0.0"/>
+  <testcase name="이미존재하는_사용자_생성시_에러발생()" classname="skcc.arch.biz.small.user.service.UserServiceTest" time="0.002">
+    <failure message="org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: &lt;java.lang.IllegalStateException&gt; but was: &lt;skcc.arch.app.exception.CustomException&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: &lt;java.lang.IllegalStateException&gt; but was: &lt;skcc.arch.app.exception.CustomException&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at app//org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at app//skcc.arch.biz.small.user.service.UserServiceTest.이미존재하는_사용자_생성시_에러발생(UserServiceTest.java:80)
+	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: skcc.arch.app.exception.CustomException: 이미 존재하는 요소입니다.
+	at app//skcc.arch.biz.user.service.UserService.checkUserExistByEmail(UserService.java:130)
+	at app//skcc.arch.biz.user.service.UserService.signUp(UserService.java:46)
+	at app//skcc.arch.biz.small.user.service.UserServiceTest.lambda$이미존재하는_사용자_생성시_에러발생$0(UserServiceTest.java:80)
+	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+</failure>
+  </testcase>
+  <testcase name="페이지정보를_이용한_사용자_조회()" classname="skcc.arch.biz.small.user.service.UserServiceTest" time="0.0"/>
+  <testcase name="ID로_사용자_조회()" classname="skcc.arch.biz.small.user.service.UserServiceTest" time="0.001"/>
+  <testcase name="전체_사용자_조회()" classname="skcc.arch.biz.small.user.service.UserServiceTest" time="0.0"/>
+  <testcase name="잘못된_정보로_로그인_시도()" classname="skcc.arch.biz.small.user.service.UserServiceTest" time="0.002">
+    <failure message="org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: &lt;java.lang.IllegalStateException&gt; but was: &lt;skcc.arch.app.exception.CustomException&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: &lt;java.lang.IllegalStateException&gt; but was: &lt;skcc.arch.app.exception.CustomException&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at app//org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at app//skcc.arch.biz.small.user.service.UserServiceTest.잘못된_정보로_로그인_시도(UserServiceTest.java:105)
+	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: skcc.arch.app.exception.CustomException: 비밀번호가 일치하지 않습니다.
+	at app//skcc.arch.biz.user.service.UserService.authenticate(UserService.java:62)
+	at app//skcc.arch.biz.small.user.service.UserServiceTest.lambda$잘못된_정보로_로그인_시도$1(UserServiceTest.java:105)
+	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+</failure>
+  </testcase>
+  <testcase name="존재하지_않은_이메일로_로그인_시도()" classname="skcc.arch.biz.small.user.service.UserServiceTest" time="0.001">
+    <failure message="org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: &lt;java.lang.IllegalStateException&gt; but was: &lt;skcc.arch.app.exception.CustomException&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: &lt;java.lang.IllegalStateException&gt; but was: &lt;skcc.arch.app.exception.CustomException&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at app//org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at app//skcc.arch.biz.small.user.service.UserServiceTest.존재하지_않은_이메일로_로그인_시도(UserServiceTest.java:117)
+	at java.base@21.0.4/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base@21.0.4/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: skcc.arch.app.exception.CustomException: 요소가 존재하지 않습니다.
+	at app//skcc.arch.biz.user.service.UserService.lambda$authenticate$1(UserService.java:59)
+	at java.base@21.0.4/java.util.Optional.orElseThrow(Optional.java:403)
+	at app//skcc.arch.biz.user.service.UserService.authenticate(UserService.java:59)
+	at app//skcc.arch.biz.small.user.service.UserServiceTest.lambda$존재하지_않은_이메일로_로그인_시도$2(UserServiceTest.java:117)
+	at app//org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+</failure>
+  </testcase>
+  <system-out><![CDATA[2025-07-08T13:43:27.683+09:00  INFO 24308 --- [    Test worker] skcc.arch.biz.user.service.UserService   : generated token : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MUBzay5jb20iLCJ1aWQiOiJ0ZXN0MUBzay5jb20iLCJyb2xlIjpbXSwiZW1haWwiOiJ0ZXN0MUBzay5jb20iLCJ1c2VybmFtZSI6Iu2Zjeq4uOuPmTEiLCJpYXQiOjE3NTE5NDk4MDcsImV4cCI6MTc1MTk1MTYwN30.stB4Iwqt5_RGcqniAOAdudHeStxCMqwf97fc6AlECCs
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

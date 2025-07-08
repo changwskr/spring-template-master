@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="skcc.arch.biz.small.user.domain.UserTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2025-07-08T04:43:27" hostname="SKCC24N00414" time="0.005">
+  <properties/>
+  <testcase name="사용자_생성시_기본권한이_부여된다()" classname="skcc.arch.biz.small.user.domain.UserTest" time="0.0"/>
+  <testcase name="사용자_정보중_일부만_변경()" classname="skcc.arch.biz.small.user.domain.UserTest" time="0.002"/>
+  <testcase name="사용자의_상태값을_변경한다_상태값이_같은경우()" classname="skcc.arch.biz.small.user.domain.UserTest" time="0.0"/>
+  <testcase name="사용자의_상태값을_변경한다_상태값이_다른경우()" classname="skcc.arch.biz.small.user.domain.UserTest" time="0.0"/>
+  <testcase name="UserCreate_객체로_생성()" classname="skcc.arch.biz.small.user.domain.UserTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

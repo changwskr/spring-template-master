@@ -1,11 +1,13 @@
-// 폐쇄망
-//pluginManagement {
-//    repositories {
-//        maven {
-//            url '사내 Nexus URL'
-//        }
-//    }
-//}
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        // 폐쇄망일 경우 사내 Nexus 사용
+        // maven {
+        //     url 'https://gdi-nexus.gdi.cloudzcp.net/repository/maven-central'
+        // }
+    }
+}
 
 rootProject.name = 'skcc-spring-template'
 
