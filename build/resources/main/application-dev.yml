@@ -8,6 +8,12 @@ spring:
       port: 6379
       database: 0
       timeout: 60s
+
+### JWT 설정 ###
+jwt:
+  secret: mySecretKeyForJwtTokenGenerationAndValidationPurposeOnly123456789
+  expiration: 86400000  # 24시간
+
 my:
   cache:
     type: redis

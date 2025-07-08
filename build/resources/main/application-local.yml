@@ -2,6 +2,12 @@ spring:
   # 외부 설정 yml
   config:
     import: classpath:filePolicy-local.yml
+
+### JWT 설정 ###
+jwt:
+  secret: mySecretKeyForJwtTokenGenerationAndValidationPurposeOnly123456789
+  expiration: 86400000  # 24시간
+
 my:
   cache:
     type: caffeine
