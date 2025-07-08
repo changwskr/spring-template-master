@@ -35,9 +35,15 @@ public class SecurityConfig {
 //            "/**",
             // FIXME - 타임리프(추후제거)
             "/","/login", "/register",
-            // FIXME - 정적파일(추후제건
+            // FIXME - 정적파일(추후제거)
             "/css/**", "/js/**", "/images/**", "/favicon.ico",
 //            "/**", //테스트용
+            // Swagger UI 관련
+            "/swagger-ui/**", 
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/webjars/**",
             // 캐시, 파일, 로그, 인증
             "/api/cache/**",
             "/api/log/**",

@@ -5,6 +5,7 @@ pluginManagement {
         // 폐쇄망일 경우 사내 Nexus 사용
         // maven {
         //     url 'https://gdi-nexus.gdi.cloudzcp.net/repository/maven-central'
+        
         // }
     }
 }
