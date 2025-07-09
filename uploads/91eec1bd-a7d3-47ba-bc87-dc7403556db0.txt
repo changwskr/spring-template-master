@@ -1,0 +1,22 @@
+
+
+
+사용 방법
+	H2 콘솔 접근
+	Apply to UserService....
+	JDBC URL: jdbc:h2:file:./data/skmba
+	Username: sa
+	Password: password
+	
+	http://localhost:8080/h2-console
+	
+	
+데이터베이스 파일 위치
+./data/skmba.mv.db (프로젝트 루트의 data 폴더)
+자동 생성되는 테이블
+users 테이블 (User 엔티티 기반)
+초기 데이터
+user / password (테스트 사용자)
+admin / admin123 (관리자)
+test / test123 (테스트 계정)
+이제 애플리케이션을 실행하면 H2 데이터베이스가 자동으로 생성되고 초기 사용자 데이터가 입력됩니다!

@@ -12,4 +12,6 @@ public interface FileServicePort {
     FileModel storeFile(MultipartFile multipartFile, String policyKey) throws IOException;
     List<FileModel> storeFiles(List<MultipartFile> multipartFiles, String policyKey) throws IOException;
     FileDownload getFileDownload(FileModel fileModel);
+    List<FileModel> getAllFiles();
+    void deleteFile(Long id);
 }

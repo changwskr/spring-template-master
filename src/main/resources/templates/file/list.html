@@ -174,14 +174,20 @@
             margin-top: 5px;
         }
         .alert {
-            padding: 12px;
+            padding: 12px 20px;
+            margin: 10px 0;
             border-radius: 4px;
-            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
         }
         .alert-error {
             background-color: #f8d7da;
-            color: #721c24;
             border: 1px solid #f5c6cb;
+            color: #721c24;
         }
     </style>
 </head>
@@ -224,6 +230,7 @@
             </div>
         </div>
         
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
         <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
         
         <div class="action-buttons">
@@ -246,24 +253,26 @@
                 <tbody>
                     <tr th:each="file : ${files}">
                         <td>
-                            <span th:class="${getFileIcon(file.orgName)}" class="file-icon"></span>
+                            <span th:text="${fileHelper.getFileIcon(file.orgName)}" class="file-icon"></span>
                             <span th:text="${file.orgName}"></span>
                         </td>
                         <td>
-                            <span th:text="${formatFileSize(file.size)}"></span>
+                            <span th:text="${fileHelper.formatFileSize(file.size)}"></span>
                             <div class="file-size" th:text="${file.size + ' bytes'}"></div>
                         </td>
-                        <td th:text="${getFileType(file.orgName)}"></td>
-                        <td th:text="${#temporals.format(file.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td th:text="${fileHelper.getFileType(file.orgName)}"></td>
+                        <td th:text="${file.createdDate != null ? #temporals.format(file.createdDate, 'yyyy-MM-dd HH:mm') : '-'}"></td>
                         <td th:text="${file.dirPath}"></td>
                         <td class="action-cell">
                             <form action="/file/download" method="post" style="display: inline;">
-                                <input type="hidden" name="fileName" th:value="${file.orgName}">
-                                <input type="hidden" name="storedName" th:value="${file.encName}">
+                                <input type="hidden" name="fileId" th:value="${file.id}">
                                 <button type="submit" class="btn btn-success">⬇️ 다운로드</button>
                             </form>
+                            <!-- 삭제 버튼 -->
                             <button onclick="deleteFile(this)" class="btn btn-danger" 
-                                    th:data-file-id="${file.id}" th:data-file-name="${file.orgName}">🗑️ 삭제</button>
+                                    th:data-file-id="${file.id}" th:data-file-name="${file.orgName}">
+                                🗑️ 삭제
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -289,8 +298,25 @@
             const fileName = button.getAttribute('data-file-name');
             
             if (confirm(`'${fileName}' 파일을 정말 삭제하시겠습니까?`)) {
-                // 실제 구현에서는 삭제 API를 호출해야 합니다
-                alert('파일 삭제 기능은 추후 구현 예정입니다.');
+                // form을 생성하여 DELETE 요청 전송
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/file/delete/${fileId}`;
+                
+                // CSRF 토큰이 필요한 경우 추가
+                const csrfToken = document.querySelector('meta[name="_csrf"]');
+                const csrfHeader = document.querySelector('meta[name="_csrf_header"]');
+                
+                if (csrfToken && csrfHeader) {
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = csrfToken.getAttribute('content');
+                    csrfInput.value = csrfHeader.getAttribute('content');
+                    form.appendChild(csrfInput);
+                }
+                
+                document.body.appendChild(form);
+                form.submit();
             }
         }
 
@@ -364,22 +390,28 @@
 
         // 페이지 로드 시 파일 정보 표시 개선
         document.addEventListener('DOMContentLoaded', function() {
-            // 파일 크기 포맷팅
-            document.querySelectorAll('td').forEach(cell => {
-                const sizeText = cell.textContent.trim();
-                if (sizeText.match(/^\d+$/)) {
-                    const bytes = parseInt(sizeText);
-                    cell.innerHTML = formatFileSize(bytes) + '<div class="file-size">' + bytes + ' bytes</div>';
+            // 파일 아이콘 설정
+            document.querySelectorAll('.file-icon').forEach(iconElement => {
+                const fileName = iconElement.getAttribute('data-filename');
+                if (fileName) {
+                    iconElement.textContent = getFileIcon(fileName);
                 }
             });
 
-            // 파일 아이콘 추가
-            document.querySelectorAll('tr[th\\:each]').forEach(row => {
-                const fileNameCell = row.querySelector('td:first-child');
-                if (fileNameCell) {
-                    const fileName = fileNameCell.textContent.trim();
-                    const icon = getFileIcon(fileName);
-                    fileNameCell.innerHTML = '<span class="file-icon">' + icon + '</span>' + fileName;
+            // 파일 크기 포맷팅
+            document.querySelectorAll('.file-size-display').forEach(sizeElement => {
+                const sizeStr = sizeElement.getAttribute('data-size');
+                if (sizeStr) {
+                    const bytes = parseInt(sizeStr);
+                    sizeElement.textContent = formatFileSize(bytes);
+                }
+            });
+
+            // 파일 타입 설정
+            document.querySelectorAll('.file-type-display').forEach(typeElement => {
+                const fileName = typeElement.getAttribute('data-filename');
+                if (fileName) {
+                    typeElement.textContent = getFileType(fileName);
                 }
             });
         });

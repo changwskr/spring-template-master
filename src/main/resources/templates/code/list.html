@@ -250,10 +250,11 @@
         
         <!-- 테스트용 링크 -->
         <div style="margin-bottom: 20px; padding: 10px; background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px;">
-            <strong>🔧 삭제 테스트:</strong>
-            <a href="/code/delete/1" onclick="return confirm('ID 1 코드를 삭제하시겠습니까?')" style="color: #d63384; text-decoration: underline;">ID 1 삭제 테스트</a>
+            <strong>🔧 JavaScript 없는 삭제 테스트:</strong>
+            <a href="/code/delete/1" style="color: #d63384; text-decoration: underline; font-weight: bold;">ID 1 삭제 테스트 (순수 링크)</a>
             |
             <a href="/code/list" style="color: #0d6efd; text-decoration: underline;">목록 새로고침</a>
+            <br><small>💡 JavaScript가 비활성화되어 있거나 오류가 있는 것 같습니다.</small>
         </div>
         
         <!-- 검색 조건 섹션 -->
@@ -324,21 +325,22 @@
                                 URL: <span th:text="@{/code/delete/{id}(id=${code.id})}"></span>
                             </div>
                             
-                            <!-- POST 방식 삭제 -->
+                            <!-- 기본 테스트 버튼 -->
+                            <button th:if="${!code.delYn}" onclick="alert('기본 버튼 클릭됨!')" style="background: red; color: white; border: none; padding: 5px;">테스트</button>
+                            
+                            <!-- 순수 HTML POST 방식 삭제 -->
                             <form th:if="${!code.delYn}" 
                                   th:action="@{/code/delete/{id}(id=${code.id})}" 
                                   method="post" 
-                                  style="display: inline;" 
-                                  onsubmit="console.log('Form 제출 시도:', this.action); return confirm('정말 삭제하시겠습니까?')">
-                                <button type="submit" class="btn btn-danger" onclick="console.log('삭제 버튼 클릭됨')">삭제</button>
+                                  style="display: inline;">
+                                <button type="submit" class="btn btn-danger">삭제</button>
                             </form>
                             
-                            <!-- GET 방식 테스트 링크 -->
+                            <!-- 순수 HTML GET 방식 테스트 링크 -->
                             <a th:if="${!code.delYn}" 
                                th:href="@{/code/delete/{id}(id=${code.id})}" 
                                class="btn btn-danger" 
-                               style="margin-left: 5px; font-size: 12px;" 
-                               onclick="console.log('GET 링크 클릭됨:', this.href); return confirm('GET 방식으로 삭제하시겠습니까?')">GET삭제</a>
+                               style="margin-left: 5px; font-size: 12px;">GET삭제</a>
                             
                             <span th:if="${code.delYn}" class="text-muted">삭제된 코드</span>
                         </td>

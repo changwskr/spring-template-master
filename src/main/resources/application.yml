@@ -28,6 +28,13 @@ spring:
   thymeleaf:
     check-template-location: false
 
+### HTTP 인코딩 설정 ###
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
 ### 메시징 - RabbitMQ (주석처리: 로컬에 RabbitMQ 없을 경우) ###
 #  rabbitmq:
 #    host: localhost
@@ -69,4 +76,13 @@ logging:
   level:
     root: INFO
     skcc.arch: DEBUG
+  config: classpath:logback-spring.xml
+
+# Spring Boot 전체 인코딩 설정
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
