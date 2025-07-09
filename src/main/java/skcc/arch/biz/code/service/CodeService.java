@@ -235,4 +235,27 @@ public class CodeService implements CodeServicePort {
         myCacheService.put(CacheGroup.CODE, code.getCode(), result);
     }
 
+    @Override
+    public void delete(Long id) {
+        try {
+            Code code = findById(id); // 기존 findById 메소드 활용
+            if (code != null) {
+                // 논리 삭제: delYn을 true로 설정
+                Code deletedCode = Code.builder()
+                        .id(code.getId())
+                        .code(code.getCode())
+                        .codeName(code.getCodeName())
+                        .parentCodeId(code.getParentCodeId())
+                        .seq(code.getSeq())
+                        .description(code.getDescription())
+                        .delYn(true) // 삭제 플래그 설정
+                        .createdDate(code.getCreatedDate())
+                        .lastModifiedDate(java.time.LocalDateTime.now())
+                        .build();
+                codeRepositoryPort.save(deletedCode);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("코드 삭제 중 오류가 발생했습니다: " + e.getMessage(), e);
+        }
+    }
 }

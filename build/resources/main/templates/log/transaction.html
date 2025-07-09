@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>거래 내역</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-button {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+        .main-content {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .page-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .stats-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .stat-item.success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        .stat-item.warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .stat-item.info {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .search-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+        .search-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .action-buttons {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .left-buttons, .right-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        .transaction-table {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .transaction-header {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .transaction-count {
+            font-weight: bold;
+            color: #333;
+        }
+        .transaction-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 13px;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+            position: sticky;
+            top: 0;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        .transaction-id {
+            font-family: monospace;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .transaction-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            min-width: 60px;
+        }
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-failed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .action-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        .action-login {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .action-upload {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .action-register {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .action-modify {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .transaction-timestamp {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+        }
+        .transaction-details {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .transaction-details:hover {
+            overflow: visible;
+            white-space: normal;
+            word-break: break-word;
+            background-color: #fff;
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .ip-address {
+            font-family: monospace;
+            font-size: 11px;
+            color: #999;
+        }
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .breadcrumb {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .alert {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>로그 관리 시스템</h1>
+            <div class="nav-buttons">
+                <a href="/main" class="nav-button">🏠 홈</a>
+                <a href="/swagger-ui/index.html" class="nav-button" target="_blank">📚 SWAGGER</a>
+                <a href="/auth/logout" class="nav-button">🚪 로그아웃</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="breadcrumb">
+            <a href="/main">홈</a> > <a href="/log/system">로그 관리</a> > <span>거래 내역</span>
+        </div>
+        
+        <h2 class="page-title">거래 내역 조회</h2>
+        
+        <!-- 통계 섹션 -->
+        <div class="stats-section">
+            <div class="stat-item success">
+                <div class="stat-number" th:text="${transactions != null ? #lists.size(transactions.?[status == '성공']) : 0}">0</div>
+                <div class="stat-label">성공한 거래</div>
+            </div>
+            <div class="stat-item warning">
+                <div class="stat-number" th:text="${transactions != null ? #lists.size(transactions.?[status == '실패']) : 0}">0</div>
+                <div class="stat-label">실패한 거래</div>
+            </div>
+            <div class="stat-item info">
+                <div class="stat-number" th:text="${transactions != null ? #lists.size(transactions) : 0}">0</div>
+                <div class="stat-label">총 거래 수</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${transactions != null && #lists.size(transactions) > 0 ? #numbers.formatDecimal(#lists.size(transactions.?[status == '성공']) * 100.0 / #lists.size(transactions), 0, 1) + '%' : '0%'}">0%</div>
+                <div class="stat-label">성공률</div>
+            </div>
+        </div>
+        
+        <!-- 검색 조건 섹션 -->
+        <div class="search-section">
+            <form method="get" action="/log/transaction" class="search-form">
+                <div class="form-group">
+                    <label for="userId">사용자 ID</label>
+                    <input type="text" id="userId" name="userId" th:value="${userId}" placeholder="사용자 ID 입력">
+                </div>
+                <div class="form-group">
+                    <label for="action">작업 유형</label>
+                    <select id="action" name="action">
+                        <option value="">전체</option>
+                        <option value="로그인" th:selected="${action == '로그인'}">로그인</option>
+                        <option value="파일업로드" th:selected="${action == '파일업로드'}">파일업로드</option>
+                        <option value="사용자등록" th:selected="${action == '사용자등록'}">사용자등록</option>
+                        <option value="코드수정" th:selected="${action == '코드수정'}">코드수정</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="startDate">시작 일시</label>
+                    <input type="datetime-local" id="startDate" name="startDate" th:value="${startDate}">
+                </div>
+                <div class="form-group">
+                    <label for="endDate">종료 일시</label>
+                    <input type="datetime-local" id="endDate" name="endDate" th:value="${endDate}">
+                </div>
+                <div class="form-group">
+                    <div class="search-buttons">
+                        <button type="submit" class="btn btn-primary">🔍 조회</button>
+                        <button type="button" class="btn btn-secondary" onclick="clearSearch()">🗑️ 초기화</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+        
+        <div class="action-buttons">
+            <div class="left-buttons">
+                <a href="/log/system" class="btn btn-primary">📊 시스템 로그</a>
+                <button onclick="refreshTransactions()" class="btn btn-success">🔄 새로고침</button>
+            </div>
+            <div class="right-buttons">
+                <button onclick="exportTransactions()" class="btn btn-warning">📁 내역 내보내기</button>
+                <button onclick="toggleFailedOnly()" id="failedOnlyBtn" class="btn btn-secondary">❌ 실패만 보기</button>
+            </div>
+        </div>
+        
+        <div class="transaction-table">
+            <div class="transaction-header">
+                <div class="transaction-count">
+                    총 <span th:text="${#lists.size(transactions)}">0</span>개의 거래
+                </div>
+                <div class="transaction-controls">
+                    <label>
+                        <input type="checkbox" id="showDetails" onchange="toggleDetails()" checked> 상세 내용 표시
+                    </label>
+                </div>
+            </div>
+            
+            <table th:if="${not #lists.isEmpty(transactions)}">
+                <thead>
+                    <tr>
+                        <th>거래 ID</th>
+                        <th>시간</th>
+                        <th>사용자</th>
+                        <th>작업</th>
+                        <th class="details-col">상세 내용</th>
+                        <th>IP 주소</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="tx : ${transactions}" th:class="${tx.status == '실패' ? 'failed-row' : ''}">
+                        <td class="transaction-id" th:text="${tx.id}"></td>
+                        <td class="transaction-timestamp" th:text="${tx.timestamp}"></td>
+                        <td th:text="${tx.userId}" style="font-weight: bold;"></td>
+                        <td>
+                            <span class="action-badge" 
+                                  th:classappend="${tx.action == '로그인' ? 'action-login' : 
+                                                   tx.action == '파일업로드' ? 'action-upload' : 
+                                                   tx.action == '사용자등록' ? 'action-register' : 
+                                                   'action-modify'}" 
+                                  th:text="${tx.action}"></span>
+                        </td>
+                        <td class="transaction-details details-col" th:text="${tx.details}" th:title="${tx.details}"></td>
+                        <td class="ip-address" th:text="${tx.ipAddress}"></td>
+                        <td>
+                            <span class="transaction-status" 
+                                  th:classappend="${tx.status == '성공' ? 'status-success' : 'status-failed'}" 
+                                  th:text="${tx.status}"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div th:if="${#lists.isEmpty(transactions)}" class="no-data">
+                <div style="font-size: 48px; margin-bottom: 20px;">📊</div>
+                <h3>조회된 거래 내역이 없습니다</h3>
+                <p>검색 조건을 조정하여 다시 시도해보세요.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function clearSearch() {
+            document.getElementById('userId').value = '';
+            document.getElementById('action').value = '';
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            window.location.href = '/log/transaction';
+        }
+
+        function refreshTransactions() {
+            window.location.reload();
+        }
+
+        function toggleFailedOnly() {
+            const failedRows = document.querySelectorAll('.failed-row');
+            const successRows = document.querySelectorAll('tbody tr:not(.failed-row)');
+            const btn = document.getElementById('failedOnlyBtn');
+            
+            const isShowingFailedOnly = btn.textContent.includes('전체 보기');
+            
+            if (isShowingFailedOnly) {
+                // 전체 보기로 전환
+                successRows.forEach(row => row.style.display = '');
+                btn.textContent = '❌ 실패만 보기';
+                btn.classList.remove('btn-warning');
+                btn.classList.add('btn-secondary');
+            } else {
+                // 실패만 보기로 전환
+                successRows.forEach(row => row.style.display = 'none');
+                btn.textContent = '✅ 전체 보기';
+                btn.classList.remove('btn-secondary');
+                btn.classList.add('btn-warning');
+            }
+        }
+
+        function toggleDetails() {
+            const detailsCols = document.querySelectorAll('.details-col');
+            const showDetails = document.getElementById('showDetails').checked;
+            
+            detailsCols.forEach(col => {
+                col.style.display = showDetails ? '' : 'none';
+            });
+        }
+
+        function exportTransactions() {
+            const userId = document.getElementById('userId').value;
+            const action = document.getElementById('action').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            // 실제 구현에서는 거래 내역을 CSV나 Excel로 내보내는 기능을 구현
+            alert('거래 내역 내보내기 기능은 추후 구현 예정입니다.');
+        }
+
+        // 통계 애니메이션
+        document.addEventListener('DOMContentLoaded', function() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            statNumbers.forEach(statNumber => {
+                const finalValue = parseInt(statNumber.textContent) || 0;
+                if (finalValue > 0 && !statNumber.textContent.includes('%')) {
+                    let currentValue = 0;
+                    const increment = finalValue / 50;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= finalValue) {
+                            statNumber.textContent = finalValue;
+                            clearInterval(timer);
+                        } else {
+                            statNumber.textContent = Math.floor(currentValue);
+                        }
+                    }, 20);
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

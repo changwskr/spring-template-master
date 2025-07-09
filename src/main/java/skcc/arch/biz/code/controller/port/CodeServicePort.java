@@ -15,4 +15,5 @@ public interface CodeServicePort {
     Page<Code> findByConditionWithChild(Pageable pageable, CodeSearch codeSearch);
     Code update(CodeUpdate codeUpdate);
     Code findByCode(CodeSearch codeSearch);
+    void delete(Long id);
 }

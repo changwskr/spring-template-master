@@ -39,6 +39,7 @@ public class SecurityConfig {
             "/auth/login", "/auth/logout", "/auth/login-management",
             "/main", "/user/**", "/common/**",  // 메인 페이지와 사용자 관리, 공통 페이지 추가
             "/receive/**", "/credit/**",  // 수신, 여신 메뉴 추가
+            "/code/**", "/file/**", "/log/**",  // 코드관리, 파일관리, 로그관리 추가
             // FIXME - 정적파일(추후제거)
             "/css/**", "/js/**", "/images/**", "/favicon.ico",
             // Swagger UI 관련

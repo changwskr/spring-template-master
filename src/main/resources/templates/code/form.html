@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit ? '코드 수정' : '코드 등록'}">코드 관리</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-button {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+        .main-content {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .page-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .form-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .required {
+            color: #dc3545;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 5px;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        .form-actions {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+        .breadcrumb {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>코드 관리 시스템</h1>
+            <div class="nav-buttons">
+                <a href="/main" class="nav-button">🏠 홈</a>
+                <a href="/swagger-ui/index.html" class="nav-button" target="_blank">📚 SWAGGER</a>
+                <a href="/auth/logout" class="nav-button">🚪 로그아웃</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="breadcrumb">
+            <a href="/main">홈</a> > <a href="/code/list">코드 관리</a> > <span th:text="${isEdit ? '코드 수정' : '코드 등록'}"></span>
+        </div>
+        
+        <h2 class="page-title" th:text="${isEdit ? '코드 수정' : '코드 등록'}">코드 등록</h2>
+        
+        <div class="form-container">
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
+            
+            <form th:action="${isEdit ? '/code/update' : '/code/register'}" method="post" th:object="${code}">
+                <input th:if="${isEdit}" type="hidden" th:field="*{id}">
+                
+                <div class="form-group">
+                    <label for="code">코드 <span class="required">*</span></label>
+                    <input type="text" id="code" th:field="*{code}" placeholder="코드를 입력하세요" required maxlength="50">
+                </div>
+                
+                <div class="form-group">
+                    <label for="codeName">코드명 <span class="required">*</span></label>
+                    <input type="text" id="codeName" th:field="*{codeName}" placeholder="코드명을 입력하세요" required maxlength="100">
+                </div>
+                
+                <div class="form-group">
+                    <label for="seq">순서</label>
+                    <input type="number" id="seq" th:field="*{seq}" placeholder="표시 순서를 입력하세요 (기본값: 0)" min="0" value="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">설명</label>
+                    <textarea id="description" th:field="*{description}" placeholder="코드에 대한 설명을 입력하세요" maxlength="500"></textarea>
+                </div>
+                
+                <div class="form-group" th:if="${isEdit}">
+                    <label>
+                        <input type="checkbox" th:field="*{delYn}" th:value="true">
+                        <span style="margin-left: 8px;">미사용 처리</span>
+                    </label>
+                    <small style="display: block; color: #666; margin-top: 5px;">체크하면 이 코드를 미사용으로 처리합니다.</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" th:text="${isEdit ? '수정' : '등록'}">등록</button>
+                    <a href="/code/list" class="btn btn-secondary">목록으로</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 폼 검증
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const code = document.getElementById('code').value.trim();
+            const codeName = document.getElementById('codeName').value.trim();
+            
+            if (!code) {
+                alert('코드를 입력해주세요.');
+                e.preventDefault();
+                return;
+            }
+            
+            if (!codeName) {
+                alert('코드명을 입력해주세요.');
+                e.preventDefault();
+                return;
+            }
+            
+            // 코드 형식 검증 (영문, 숫자, 언더스코어만 허용)
+            const codePattern = /^[A-Za-z0-9_]+$/;
+            if (!codePattern.test(code)) {
+                alert('코드는 영문, 숫자, 언더스코어(_)만 사용할 수 있습니다.');
+                e.preventDefault();
+                return;
+            }
+        });
+    </script>
+</body>
+</html> 
