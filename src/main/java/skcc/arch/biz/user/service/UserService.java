@@ -123,6 +123,14 @@ public class UserService implements UserServicePort {
         return userRepositoryPort.save(updatedUser);
     }
 
+    public User update(User user) {
+        User existingUser = userRepositoryPort.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        User updatedUser = existingUser.updateUser(user, passwordEncoder);
+        return userRepositoryPort.save(updatedUser);
+    }
+
     // 이메일로 존재여부 체크
     private void checkUserExistByEmail(String email) {
         Optional<User> optionalUser = userRepositoryPort.findByEmail(email);

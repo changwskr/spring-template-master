@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-button {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .menu-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            min-height: 200px;
+        }
+        .menu-card h2 {
+            color: #007bff;
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .submenu {
+            margin-bottom: 15px;
+        }
+        .submenu h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .submenu-item {
+            margin-left: 20px;
+            margin-bottom: 5px;
+        }
+        .submenu-item a {
+            color: #666;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .submenu-item a:hover {
+            background-color: #f8f9fa;
+            color: #007bff;
+        }
+        .submenu-item a:active {
+            background-color: #007bff;
+            color: white;
+            transform: scale(0.98);
+        }
+        .clickable-menu {
+            position: relative;
+        }
+        .clickable-menu:before {
+            content: "🔗";
+            position: absolute;
+            right: 5px;
+            font-size: 10px;
+            color: #007bff;
+        }
+        .page-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .refresh-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .refresh-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .refresh-button:hover {
+            background-color: #218838;
+        }
+        .refresh-button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>사용자 관리 시스템</h1>
+            <div class="nav-buttons">
+                <a href="/main" class="nav-button">🏠 홈</a>
+                <a href="/swagger-ui/index.html" class="nav-button" target="_blank">📚 SWAGGER</a>
+                <a href="/auth/logout" class="nav-button">🚪 로그아웃</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="page-title">메인 메뉴</h2>
+        
+        <div class="refresh-section">
+            <button id="refreshMenuBtn" class="refresh-button">🔄 메뉴 새로고침</button>
+            <button id="debugMenuBtn" class="refresh-button" style="background-color: #6c757d; margin-left: 10px;">🔍 메뉴 디버깅</button>
+            <div id="message" class="message"></div>
+            <div id="debugResult" class="message" style="text-align: left; white-space: pre-line; font-family: monospace; font-size: 12px;"></div>
+        </div>
+        
+        <div class="menu-container">
+            <div th:each="menu : ${menus}" class="menu-card">
+                <h2 th:text="${menu.name}"></h2>
+                
+                <div th:each="submenu : ${menu.children}" class="submenu">
+                    <h3 th:text="${submenu.name}"></h3>
+                    <div th:each="subitem : ${submenu.children}" class="submenu-item">
+                        <a th:href="${subitem.menuUrl}" th:text="${subitem.name}" class="clickable-menu" onclick="handleMenuClick(event, this)"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 메뉴 클릭 처리 함수
+        function handleMenuClick(event, element) {
+            // 클릭된 메뉴에 로딩 상태 표시
+            const originalText = element.textContent;
+            element.textContent = '로딩 중...';
+            element.style.backgroundColor = '#007bff';
+            element.style.color = 'white';
+            element.style.pointerEvents = 'none';
+            
+            // 페이지 이동 전에 잠시 로딩 상태 유지
+            setTimeout(() => {
+                window.location.href = element.href;
+            }, 300);
+            
+            // 기본 링크 클릭 이벤트 방지 (setTimeout으로 직접 이동 처리)
+            event.preventDefault();
+        }
+
+        document.getElementById('refreshMenuBtn').addEventListener('click', function() {
+            const button = this;
+            const message = document.getElementById('message');
+            const debugResult = document.getElementById('debugResult');
+            
+            button.disabled = true;
+            button.textContent = '새로고침 중...';
+            message.style.display = 'none';
+            debugResult.style.display = 'none';
+            
+            fetch('/api/refresh-menus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                message.textContent = data;
+                message.className = 'message success';
+                message.style.display = 'block';
+                
+                // 2초 후 페이지 새로고침
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            })
+            .catch(error => {
+                message.textContent = '메뉴 새로고침 중 오류가 발생했습니다: ' + error.message;
+                message.className = 'message error';
+                message.style.display = 'block';
+            })
+            .finally(() => {
+                button.disabled = false;
+                button.textContent = '🔄 메뉴 새로고침';
+            });
+        });
+
+        document.getElementById('debugMenuBtn').addEventListener('click', function() {
+            const button = this;
+            const debugResult = document.getElementById('debugResult');
+            const message = document.getElementById('message');
+            
+            button.disabled = true;
+            button.textContent = '디버깅 중...';
+            message.style.display = 'none';
+            
+            fetch('/api/debug-menus', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                debugResult.textContent = data;
+                debugResult.className = 'message success';
+                debugResult.style.display = 'block';
+            })
+            .catch(error => {
+                debugResult.textContent = '메뉴 디버깅 중 오류가 발생했습니다: ' + error.message;
+                debugResult.className = 'message error';
+                debugResult.style.display = 'block';
+            })
+            .finally(() => {
+                button.disabled = false;
+                button.textContent = '🔍 메뉴 디버깅';
+            });
+        });
+    </script>
+</body>
+</html> 

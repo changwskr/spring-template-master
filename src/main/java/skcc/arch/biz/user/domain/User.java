@@ -17,17 +17,27 @@ public class User {
     private final String email;
     private final String password;
     private final String username;
+    private final String userId;        // 요구사항: USERID
+    private final String address;       // 요구사항: 주소
+    private final String job;           // 요구사항: 직업
+    private final Integer age;          // 요구사항: 나이
+    private final String company;       // 요구사항: 회사
     private final List<skcc.arch.biz.userrole.domain.UserRole> userRoles  = new ArrayList<>();
     private final UserStatus status;
     private final LocalDateTime createdDate;
     private final LocalDateTime lastModifiedDate;
 
     @Builder
-    public User(Long id, String email, String password, String username, UserStatus status, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+    public User(Long id, String email, String password, String username, String userId, String address, String job, Integer age, String company, UserStatus status, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.username = username;
+        this.userId = userId;
+        this.address = address;
+        this.job = job;
+        this.age = age;
+        this.company = company;
         this.status = status;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
@@ -44,6 +54,11 @@ public class User {
         User newUser = User.builder()
                 .email(userCreate.getEmail())
                 .username(userCreate.getUsername())
+                .userId(userCreate.getUserId())
+                .address(userCreate.getAddress())
+                .job(userCreate.getJob())
+                .age(userCreate.getAge())
+                .company(userCreate.getCompany())
                 .password(passwordEncoder.encode(userCreate.getPassword()))
                 .status(UserStatus.PENDING)
                 // JPA의 경우 BaseEntity에 처리
@@ -66,6 +81,11 @@ public class User {
         User newUser = User.builder()
                 .email(userCreate.getEmail())
                 .username(userCreate.getUsername())
+                .userId(userCreate.getUserId())
+                .address(userCreate.getAddress())
+                .job(userCreate.getJob())
+                .age(userCreate.getAge())
+                .company(userCreate.getCompany())
                 .password(passwordEncoder.encode(userCreate.getPassword()))
                 .status(UserStatus.PENDING)
                 // JPA의 경우 BaseEntity에 처리
@@ -95,6 +115,11 @@ public class User {
                 .id(id)
                 .email(email)
                 .username(username)
+                .userId(userId)
+                .address(address)
+                .job(job)
+                .age(age)
+                .company(company)
                 .password(password)
                 .status(requestStatus)
                 .build();
@@ -112,6 +137,11 @@ public class User {
                 .id(id)
                 .email(email)
                 .username(updateUser.getUsername() != null ? updateUser.getUsername() : username)
+                .userId(updateUser.getUserId() != null ? updateUser.getUserId() : userId)
+                .address(updateUser.getAddress() != null ? updateUser.getAddress() : address)
+                .job(updateUser.getJob() != null ? updateUser.getJob() : job)
+                .age(updateUser.getAge() != null ? updateUser.getAge() : age)
+                .company(updateUser.getCompany() != null ? updateUser.getCompany() : company)
                 .password(updateUser.getPassword() != null ? passwordEncoder.encode(updateUser.getPassword()) : password)
                 .status(updateUser.getStatus() != null ? updateUser.getStatus() : status)
                 .build();

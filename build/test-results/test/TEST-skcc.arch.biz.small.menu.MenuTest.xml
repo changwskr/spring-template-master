@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="skcc.arch.biz.small.menu.MenuTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-07-08T04:43:27" hostname="SKCC24N00414" time="0.005">
-  <properties/>
-  <testcase name="메뉴정보_수정시_본인ID와_부모ID가_동일할_경우_에러발생()" classname="skcc.arch.biz.small.menu.MenuTest" time="0.003"/>
-  <testcase name="신규_생성_기본값_확인_이름_URL()" classname="skcc.arch.biz.small.menu.MenuTest" time="0.0"/>
-  <testcase name="메뉴정보_수정시_부모ID가_자식의ID목록에_포함될_경우_에러발생()" classname="skcc.arch.biz.small.menu.MenuTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

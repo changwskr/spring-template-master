@@ -20,6 +20,7 @@ import skcc.arch.biz.role.service.port.RoleRepositoryPort;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -119,6 +120,40 @@ public class MenuService implements MenuServicePort {
         }
         // 2-2. 캐시 데이터 반환
         return new ArrayList<>(cacheMenu.values());
+    }
+
+    public List<Menu> getMenuHierarchy() {
+        List<Menu> allMenus = menuRepositoryPort.findAll();
+        return buildMenuHierarchy(allMenus);
+    }
+
+    private List<Menu> buildMenuHierarchy(List<Menu> allMenus) {
+        // 1단계 메뉴 (parentId가 null인 메뉴들) 찾기
+        List<Menu> rootMenus = allMenus.stream()
+                .filter(menu -> menu.getParentId() == null)
+                .sorted((m1, m2) -> Integer.compare(m1.getMenuOrder(), m2.getMenuOrder()))
+                .collect(Collectors.toList());
+
+        // 각 루트 메뉴에 대해 자식 메뉴들 설정
+        for (Menu rootMenu : rootMenus) {
+            setChildrenMenus(rootMenu, allMenus);
+        }
+
+        return rootMenus;
+    }
+
+    private void setChildrenMenus(Menu parentMenu, List<Menu> allMenus) {
+        List<Menu> childMenus = allMenus.stream()
+                .filter(menu -> menu.getParentId() != null && menu.getParentId().equals(parentMenu.getId()))
+                .sorted((m1, m2) -> Integer.compare(m1.getMenuOrder(), m2.getMenuOrder()))
+                .collect(Collectors.toList());
+
+        parentMenu.getChildren().addAll(childMenus);
+
+        // 재귀적으로 자식 메뉴들의 자식 메뉴들도 설정
+        for (Menu childMenu : childMenus) {
+            setChildrenMenus(childMenu, allMenus);
+        }
     }
 
     private void validRoleExist(List<Role> roleList) {

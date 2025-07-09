@@ -20,21 +20,27 @@ public class QUserEntity extends EntityPathBase<UserEntity> {
 
     public static final QUserEntity userEntity = new QUserEntity("userEntity");
 
-    public final skcc.arch.biz.common.infrastructure.jpa.QBaseEntity _super = new skcc.arch.biz.common.infrastructure.jpa.QBaseEntity(this);
+    public final StringPath address = createString("address");
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+    public final NumberPath<Integer> age = createNumber("age", Integer.class);
+
+    public final StringPath company = createString("company");
+
+    public final DateTimePath<java.time.LocalDateTime> createdDate = createDateTime("createdDate", java.time.LocalDateTime.class);
 
     public final StringPath email = createString("email");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
+    public final StringPath job = createString("job");
+
+    public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = createDateTime("lastModifiedDate", java.time.LocalDateTime.class);
 
     public final StringPath password = createString("password");
 
     public final EnumPath<skcc.arch.biz.user.domain.UserStatus> status = createEnum("status", skcc.arch.biz.user.domain.UserStatus.class);
+
+    public final StringPath userId = createString("userId");
 
     public final StringPath username = createString("username");
 

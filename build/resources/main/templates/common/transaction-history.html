@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">거래 내역</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-button {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .page-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .content-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .filter-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .filter-row:last-child {
+            margin-bottom: 0;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .filter-group label {
+            font-weight: bold;
+            min-width: 80px;
+        }
+        .filter-input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .transaction-table th,
+        .transaction-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .transaction-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+        .transaction-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .amount-in {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .amount-out {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .action-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+        .no-data {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>사용자 관리 시스템</h1>
+            <div class="nav-buttons">
+                <a href="/main" class="nav-button">🏠 홈</a>
+                <a href="/auth/logout" class="nav-button">🚪 로그아웃</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="page-title" th:text="${menuName}">거래 내역</h2>
+        
+        <div class="content-card">
+            <div class="filter-section">
+                <h3 style="margin-bottom: 15px; color: #007bff;">🔍 거래 내역 조회</h3>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label>조회기간:</label>
+                        <input type="date" class="filter-input" value="2024-01-01">
+                        <span>~</span>
+                        <input type="date" class="filter-input" value="2024-12-31">
+                    </div>
+                    <div class="filter-group">
+                        <label>거래유형:</label>
+                        <select class="filter-input">
+                            <option value="">전체</option>
+                            <option value="deposit">입금</option>
+                            <option value="withdraw">출금</option>
+                            <option value="transfer">이체</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label>사용자ID:</label>
+                        <input type="text" class="filter-input" placeholder="사용자 ID 입력">
+                    </div>
+                    <div class="filter-group">
+                        <label>금액범위:</label>
+                        <input type="number" class="filter-input" placeholder="최소금액">
+                        <span>~</span>
+                        <input type="number" class="filter-input" placeholder="최대금액">
+                    </div>
+                    <button class="action-button">조회</button>
+                </div>
+            </div>
+
+            <table class="transaction-table">
+                <thead>
+                    <tr>
+                        <th>거래일시</th>
+                        <th>사용자ID</th>
+                        <th>거래유형</th>
+                        <th>거래금액</th>
+                        <th>잔액</th>
+                        <th>거래상대방</th>
+                        <th>비고</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2024-01-15 14:30:25</td>
+                        <td>admin</td>
+                        <td>입금</td>
+                        <td class="amount-in">+1,000,000원</td>
+                        <td>5,000,000원</td>
+                        <td>-</td>
+                        <td>초기 입금</td>
+                    </tr>
+                    <tr>
+                        <td>2024-01-15 15:20:10</td>
+                        <td>user001</td>
+                        <td>출금</td>
+                        <td class="amount-out">-50,000원</td>
+                        <td>450,000원</td>
+                        <td>-</td>
+                        <td>ATM 출금</td>
+                    </tr>
+                    <tr>
+                        <td>2024-01-15 16:45:33</td>
+                        <td>user002</td>
+                        <td>이체</td>
+                        <td class="amount-out">-200,000원</td>
+                        <td>800,000원</td>
+                        <td>user003</td>
+                        <td>생활비 이체</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="no-data">
+                            더 많은 거래 내역을 보려면 조회 조건을 설정하고 조회 버튼을 클릭하세요.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html> 

@@ -135,6 +135,19 @@ public class MenuRepositoryJpaCustomImpl implements MenuRepositoryPort {
         return maxMenuOrder == null ? 1 : maxMenuOrder + 1;
     }
 
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public List<Menu> findAll() {
+        return repository.findAll()
+                .stream()
+                .map(MenuEntity::toModel)
+                .collect(Collectors.toList());
+    }
+
     private MenuEntity getParentEntity(Long parentId) {
         MenuEntity parentEntity;
         if(parentId == null) {

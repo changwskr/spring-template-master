@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.AntPathMatcher;
@@ -32,12 +33,14 @@ public class SecurityConfig {
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
     private final JwtUtil jwtUtil;
     private static final String[] AUTH_WHITELIST = {
-//            "/**",
+            "/**", // 테스트용으로 모든 경로 허용
             // FIXME - 타임리프(추후제거)
             "/","/login", "/register",
+            "/auth/login", "/auth/logout", "/auth/login-management",
+            "/main", "/user/**", "/common/**",  // 메인 페이지와 사용자 관리, 공통 페이지 추가
+            "/receive/**", "/credit/**",  // 수신, 여신 메뉴 추가
             // FIXME - 정적파일(추후제거)
             "/css/**", "/js/**", "/images/**", "/favicon.ico",
-//            "/**", //테스트용
             // Swagger UI 관련
             "/swagger-ui/**", 
             "/swagger-ui.html",
@@ -47,6 +50,8 @@ public class SecurityConfig {
             // 캐시, 파일, 로그, 인증
             "/api/cache/**",
             "/api/log/**",
+            "/api/refresh-menus",
+            "/api/debug-menus",
             "/api/users/signup",
             "/api/users/authenticate"
     };
@@ -56,9 +61,9 @@ public class SecurityConfig {
         http
                 // CSRF
                 .csrf(AbstractHttpConfigurer::disable)
-                // 세션관리 상태없음
+                // 세션관리 - 로그인 기반 시스템을 위해 세션 사용
                 .sessionManagement(session->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 
                 // Form Login 및 FrameOption 비활성화
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -86,6 +91,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 
 }

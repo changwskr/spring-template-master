@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 목록</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-button {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .page-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .action-buttons {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 5px;
+            transition: background-color 0.3s;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        .user-table {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        .action-cell {
+            text-align: center;
+        }
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .search-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+        .search-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>사용자 관리 시스템</h1>
+            <div class="nav-buttons">
+                <a href="/main" class="nav-button">🏠 홈</a>
+                <a href="/swagger-ui/index.html" class="nav-button" target="_blank">📚 SWAGGER</a>
+                <a href="/auth/logout" class="nav-button">🚪 로그아웃</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="page-title">사용자 목록</h2>
+        
+        <!-- 검색 조건 섹션 -->
+        <div class="search-section">
+            <form method="get" action="/user/list" class="search-form">
+                <div class="form-group">
+                    <label for="userId">사용자 ID</label>
+                    <input type="text" id="userId" name="userId" th:value="${param.userId}" placeholder="사용자 ID 입력">
+                </div>
+                <div class="form-group">
+                    <label for="username">사용자명</label>
+                    <input type="text" id="username" name="username" th:value="${param.username}" placeholder="사용자명 입력">
+                </div>
+                <div class="form-group">
+                    <label for="company">회사</label>
+                    <input type="text" id="company" name="company" th:value="${param.company}" placeholder="회사명 입력">
+                </div>
+                <div class="form-group">
+                    <label for="job">직업</label>
+                    <input type="text" id="job" name="job" th:value="${param.job}" placeholder="직업 입력">
+                </div>
+                <div class="form-group">
+                    <div class="search-buttons">
+                        <button type="submit" class="btn btn-primary">🔍 조회</button>
+                        <button type="button" class="btn btn-secondary" onclick="clearSearch()">🗑️ 초기화</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="/user/register" class="btn btn-primary">새 사용자 등록</a>
+        </div>
+        
+        <div class="user-table">
+            <table th:if="${not #lists.isEmpty(users)}">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>사용자 ID</th>
+                        <th>이름</th>
+                        <th>이메일</th>
+                        <th>주소</th>
+                        <th>직업</th>
+                        <th>나이</th>
+                        <th>회사</th>
+                        <th>상태</th>
+                        <th>작업</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.userId}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.address}"></td>
+                        <td th:text="${user.job}"></td>
+                        <td th:text="${user.age}"></td>
+                        <td th:text="${user.company}"></td>
+                        <td th:text="${user.status}"></td>
+                        <td class="action-cell">
+                            <a th:href="@{/user/edit/{id}(id=${user.id})}" class="btn btn-warning">수정</a>
+                            <form th:action="@{/user/delete/{id}(id=${user.id})}" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div th:if="${#lists.isEmpty(users)}" class="no-data">
+                등록된 사용자가 없습니다.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function clearSearch() {
+            // 모든 검색 조건 초기화
+            document.getElementById('userId').value = '';
+            document.getElementById('username').value = '';
+            document.getElementById('company').value = '';
+            document.getElementById('job').value = '';
+            
+            // 폼 제출하여 전체 목록 표시
+            window.location.href = '/user/list';
+        }
+    </script>
+</body>
+</html> 

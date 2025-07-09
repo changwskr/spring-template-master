@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">로그인 관리</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-button {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .page-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .content-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        .info-section {
+            margin-bottom: 25px;
+        }
+        .info-section h3 {
+            color: #007bff;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        .status-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .menu-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .action-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+        .secondary-button {
+            background-color: #6c757d;
+        }
+        .secondary-button:hover {
+            background-color: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>사용자 관리 시스템</h1>
+            <div class="nav-buttons">
+                <a href="/main" class="nav-button">🏠 홈</a>
+                <a href="/auth/logout" class="nav-button">🚪 로그아웃</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="page-title" th:text="${menuName}">로그인 관리</h2>
+        
+        <div class="content-card">
+            <div class="info-section">
+                <h3>🔐 로그인 상태 관리</h3>
+                <div class="info-item">
+                    <span>현재 로그인 사용자 수</span>
+                    <span class="status-badge">15명</span>
+                </div>
+                <div class="info-item">
+                    <span>오늘 로그인 총 횟수</span>
+                    <span>127회</span>
+                </div>
+                <div class="info-item">
+                    <span>실패한 로그인 시도</span>
+                    <span style="color: #dc3545;">3회</span>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>📊 세션 관리</h3>
+                <div class="info-item">
+                    <span>활성 세션 수</span>
+                    <span class="status-badge">12개</span>
+                </div>
+                <div class="info-item">
+                    <span>평균 세션 시간</span>
+                    <span>45분</span>
+                </div>
+                <div class="info-item">
+                    <span>최대 동시 접속 허용</span>
+                    <span>100명</span>
+                </div>
+            </div>
+            
+            <div class="menu-actions">
+                <a href="#" class="action-button">활성 세션 조회</a>
+                <a href="#" class="action-button secondary-button">로그인 로그 조회</a>
+                <a href="#" class="action-button secondary-button">세션 관리</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

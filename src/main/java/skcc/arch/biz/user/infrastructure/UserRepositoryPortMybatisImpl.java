@@ -84,4 +84,18 @@ public class UserRepositoryPortMybatisImpl implements UserRepositoryPort {
     public Page<User> findAdminUsers(Pageable pageable, List<Long> userIds) {
         return null;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        // MyBatis를 사용한 사용자 삭제 로직
+        // 현재는 기본 구현만 제공
+        throw new UnsupportedOperationException("MyBatis 구현에서는 삭제 기능이 아직 구현되지 않았습니다.");
+    }
+
+    @Override
+    public Optional<User> findByUserId(String userId) {
+        // MyBatis를 사용한 사용자 ID 검색 로직
+        // 현재는 기본 구현만 제공
+        throw new UnsupportedOperationException("MyBatis 구현에서는 findByUserId 기능이 아직 구현되지 않았습니다.");
+    }
 }

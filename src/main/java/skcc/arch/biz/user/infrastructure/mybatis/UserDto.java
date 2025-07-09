@@ -23,6 +23,7 @@ public class UserDto {
     private String email;
     private String password;
     private String username;
+    @Builder.Default
     private List<skcc.arch.biz.userrole.domain.UserRole> userRoles  = new ArrayList<>();
     private UserStatus status;
     private LocalDateTime createdDate;

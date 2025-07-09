@@ -110,4 +110,15 @@ public class UserRepositoryPortJpaCustomImpl implements UserRepositoryPort {
         // 3. Page로 변환하여 반환
         return new PageImpl<>(users, pageable, total);
     }
+
+    @Override
+    public Optional<User> findByUserId(String userId) {
+        return userRepositoryJpa.findByUserId(userId)
+                .map(UserEntity::toModel);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        userRepositoryJpa.deleteById(id);
+    }
 }
