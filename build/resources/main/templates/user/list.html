@@ -275,5 +275,34 @@
     </script>
     <!-- JWT 토큰 전역 인터셉터 -->
     <script src="/js/jwt-interceptor.js"></script>
+    
+    <!-- 즉시 토큰 추가 스크립트 (JWT 문제 해결용) -->
+    <script>
+        (function() {
+            console.log('즉시 토큰 체크 시작');
+            const token = localStorage.getItem('authToken');
+            const currentUrl = window.location.href;
+            
+            if (token && !currentUrl.includes('authToken=') && !currentUrl.includes('/auth/login')) {
+                console.log('토큰을 URL에 추가합니다:', token.substring(0, 20) + '...');
+                const separator = currentUrl.includes('?') ? '&' : '?';
+                const newUrl = currentUrl + separator + 'authToken=' + encodeURIComponent(token);
+                
+                // 무한 루프 방지
+                if (!sessionStorage.getItem('jwt_redirect_done')) {
+                    sessionStorage.setItem('jwt_redirect_done', 'true');
+                    console.log('리다이렉트:', newUrl);
+                    window.location.replace(newUrl);
+                } else {
+                    sessionStorage.removeItem('jwt_redirect_done');
+                }
+            } else if (!token) {
+                console.warn('토큰이 없습니다. 로그인이 필요합니다.');
+                setTimeout(() => {
+                    window.location.href = '/auth/login';
+                }, 1000);
+            }
+        })();
+    </script>
 </body>
 </html> 

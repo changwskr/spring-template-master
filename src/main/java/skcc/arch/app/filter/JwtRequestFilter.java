@@ -55,11 +55,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String requestPath = request.getRequestURI();
-        log.debug("JWT FILTER START - JWT 토큰 필터 시작. path: {}", requestPath);
+        log.debug("########## JWT FILTER START - JWT 토큰 필터 시작. path: {}", requestPath);
 
         // 요청 경로가 화이트리스트에 포함되어 있을경우 JWT Token 검증 Skip
         if (isWhitelisted(requestPath)) {
-            log.debug("JWT FILTER - 화이트리스트 경로, 토큰 검증 스킵. path: {}", requestPath);
+            log.debug("########## JWT FILTER - 화이트리스트 경로, 토큰 검증 스킵. path: {}", requestPath);
             chain.doFilter(request, response);
             return;
         }
@@ -71,7 +71,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // 1. HTTP 요청의 Authorization 헤더에서 JWT 토큰 추출
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
-            log.debug("JWT FILTER - Authorization 헤더에서 토큰 추출 완료. path: {}", requestPath);
+            log.debug("########## JWT FILTER - Authorization 헤더에서 토큰 추출 완료. path: {}", requestPath);
         } else {
             // 2. Authorization 헤더가 없으면 파라미터에서 토큰 추출 시도 (GET/POST 모두 지원)
             String paramToken = request.getParameter("authToken");
@@ -83,19 +83,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (token != null) {
-            log.debug("JWT FILTER - 토큰 발견 (길이: {}). method: {}, path: {}", 
+            log.debug("########## JWT FILTER - 토큰 발견 (길이: {}). method: {}, path: {}",
                     token.length(), request.getMethod(), requestPath);
 
             try {
                 // 3. 토큰 검증 및 사용자 ID 추출 (성능 최적화)
                 uid = tokenService.validateTokenAndExtractUserId(token);
-                log.debug("JWT FILTER - 토큰 검증 및 사용자 ID 추출 완료. userId: {}, method: {}, path: {}", 
+                log.debug("########## JWT FILTER - 토큰 검증 및 사용자 ID 추출 완료. userId: {}, method: {}, path: {}",
                         uid, request.getMethod(), requestPath);
                 
                 if (uid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     try {
                         // 4. UID로 사용자 정보 조회 (userId 기반 조회)
-                        log.debug("JWT FILTER - 사용자 정보 조회 시작. 추출된 userId: '{}', method: {}, path: {}", 
+                        log.debug("########## JWT FILTER - 사용자 정보 조회 시작. 추출된 userId: '{}', method: {}, path: {}",
                                 uid, request.getMethod(), requestPath);
                         UserDetails userDetails = customUserDetailService.loadUserByUserId(uid);
                         if (userDetails != null) {
@@ -104,7 +104,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                             // 6. Security Context에 인증 정보 설정
                             SecurityContextHolder.getContext().setAuthentication(authToken);
-                            log.debug("JWT FILTER SUCCESS - Security Context 인증 설정 완료. userId: {}, method: {}, path: {}", 
+                            log.debug("########## JWT FILTER SUCCESS - Security Context 인증 설정 완료. userId: {}, method: {}, path: {}",
                                     uid, request.getMethod(), requestPath);
                         } else {
                             log.warn("JWT FILTER - UserDetails가 null입니다. userId: {}, method: {}, path: {}", 
@@ -130,7 +130,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 return;
             }
         } else {
-            log.warn("JWT FILTER FAILED - Authorization 헤더와 파라미터 모두에서 토큰을 찾을 수 없음. method: {}, path: {}", 
+            log.warn("########## JWT FILTER FAILED - Authorization 헤더와 파라미터 모두에서 토큰을 찾을 수 없음. method: {}, path: {}",
                     request.getMethod(), requestPath);
             ApiResponse<Void> failResponse = ApiResponse.fail(new CustomException(ErrorCode.JWT_NOT_FOUND));
             HttpResponseUtil.writeResponseBody(response,failResponse);

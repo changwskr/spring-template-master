@@ -39,6 +39,9 @@ public class SecurityConfig {
             "/", "/auth/login", "/auth/logout", "/login-success", "/error/**",
             // 메인 화면 (로그인 후 기본 대시보드)
             "/main",
+            // 임시 추가 - JWT 토큰 문제 해결용 (나중에 제거 필요)
+            "/user/**", "/code/**", "/file/**", "/log/**", "/token/**", 
+            "/common/**", "/credit/**", "/receive/**",
             // 정적 파일
             "/css/**", "/js/**", "/images/**", "/favicon.ico",
             // 공개 API
