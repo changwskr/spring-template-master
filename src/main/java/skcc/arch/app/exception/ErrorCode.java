@@ -23,7 +23,11 @@ public enum ErrorCode {
     JWT_EXPIRED_TOKEN(90006, HttpStatus.UNAUTHORIZED, "error.jwtExpiredToken"),
     JWT_INVALID_SIGNATURE(90007, HttpStatus.UNAUTHORIZED, "error.jwtInvalidSignature"),
     JWT_INVALID(90008, HttpStatus.UNAUTHORIZED, "error.jwtInvalid"),
-    JWT_NOT_FOUND(90009, HttpStatus.NOT_FOUND, "error.jwtNotFound")
+    JWT_NOT_FOUND(90009, HttpStatus.UNAUTHORIZED, "error.jwtNotFound"),
+    TOKEN_NOT_FOUND_IN_DB(90010, HttpStatus.UNAUTHORIZED, "error.tokenNotFoundInDB"),
+    TOKEN_DEACTIVATED(90011, HttpStatus.UNAUTHORIZED, "error.tokenDeactivated"),
+    LOGIN_REQUIRED(90012, HttpStatus.UNAUTHORIZED, "error.loginRequired"),
+    TOKEN_CREATION_FAILED(90013, HttpStatus.INTERNAL_SERVER_ERROR, "error.tokenCreationFailed")
     ;
 
     private final int code;

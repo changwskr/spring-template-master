@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skcc.arch.app.exception.CustomException;
 import skcc.arch.app.exception.ErrorCode;
-import skcc.arch.app.util.JwtUtil;
+import skcc.arch.biz.token.service.TokenService;
 import skcc.arch.biz.role.domain.Role;
 import skcc.arch.biz.role.service.port.RoleRepositoryPort;
 import skcc.arch.biz.user.controller.port.UserServicePort;
@@ -20,9 +20,7 @@ import skcc.arch.biz.user.service.port.UserRepositoryPort;
 import skcc.arch.biz.userrole.domain.UserRole;
 import skcc.arch.biz.userrole.service.port.UserRoleRepositoryPort;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -32,7 +30,7 @@ public class UserService implements UserServicePort {
 
     private final UserRepositoryPort userRepositoryPort;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private final TokenService tokenService;
     private final RoleRepositoryPort roleRepositoryPort;
     private final UserRoleRepositoryPort userRoleRepositoryPort;
 
@@ -62,15 +60,18 @@ public class UserService implements UserServicePort {
             throw new CustomException(ErrorCode.NOT_MATCHED_PASSWORD);
         }
 
-        // JWT Token 생성
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("uid", user.getEmail());
-        claims.put("username", user.getUsername());
-        claims.put("email", user.getEmail());
-        claims.put("role", user.getUserRoles().stream().map(item -> item.getRole().getRoleId()).toArray(String[]::new));
-
-        String token = jwtUtil.generateToken(claims);
-        log.info("generated token : {}", token);
+        // Token 생성 (TokenService 사용)
+        String[] roles = user.getUserRoles().stream()
+                .map(item -> item.getRole().getRoleId())
+                .toArray(String[]::new);
+        
+        String token = tokenService.createTokenWithUserInfo(
+                user.getEmail(), 
+                user.getUsername(), 
+                user.getEmail(), 
+                roles
+        );
+        log.info("Token generated for user: {}", user.getEmail());
 
         return token;
     }

@@ -11,6 +11,10 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 105MB
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 ### JPA 설정 ###
   jpa:
@@ -28,12 +32,7 @@ spring:
   thymeleaf:
     check-template-location: false
 
-### HTTP 인코딩 설정 ###
-  http:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
+
 
 ### 메시징 - RabbitMQ (주석처리: 로컬에 RabbitMQ 없을 경우) ###
 #  rabbitmq:
@@ -51,6 +50,13 @@ mybatis:
 jwt:
   secret: mySecretKeyForJwtTokenGenerationAndValidationPurposeOnly123456789
   expiration: 86400000  # 24시간 (24 * 60 * 60 * 1000 밀리초)
+
+### 토큰 설정 ###
+token:
+  expiration-hours: 24  # 토큰 만료 시간 (시간 단위)
+  cleanup-interval: 3600000  # 만료된 토큰 정리 주기 (1시간, 밀리초)
+  cleanup:
+    enabled: true  # 토큰 정리 스케줄링 활성화
 
 ### Swagger/OpenAPI 설정 ###
 springdoc:

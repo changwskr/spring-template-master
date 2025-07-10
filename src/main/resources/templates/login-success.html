@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 성공</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .success-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        .success-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .success-header h1 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        .success-header h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .token-container {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .token-label {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        .token-value {
+            font-family: monospace;
+            font-size: 14px;
+            color: #007bff;
+            background-color: white;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+        .copy-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+        .instructions {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+        .instructions h3 {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+        .instructions ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 8px;
+            color: #6c757d;
+        }
+        .button-container {
+            text-align: center;
+        }
+        .action-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .action-button:hover {
+            background-color: #218838;
+        }
+        .action-button.secondary {
+            background-color: #6c757d;
+        }
+        .action-button.secondary:hover {
+            background-color: #5a6268;
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-header">
+            <h1>✅ 로그인 성공!</h1>
+            <h2 th:text="${userId} + '님, 환영합니다!'"></h2>
+        </div>
+        
+        <div class="alert alert-success">
+            <strong>토큰이 성공적으로 생성되었습니다!</strong><br>
+            아래 토큰을 복사하여 업무 화면에서 사용하세요.
+        </div>
+        
+        <div class="token-container">
+            <div class="token-label">생성된 토큰:</div>
+            <div class="token-value" id="tokenValue" th:text="${token}"></div>
+            <button class="copy-button" onclick="copyToken()">복사</button>
+        </div>
+        
+        <div class="instructions">
+            <h3>토큰 사용 방법:</h3>
+            <ul>
+                <li>이 토큰은 24시간 동안 유효합니다.</li>
+                <li>업무 화면에서 HTTP 헤더에 다음과 같이 추가하세요:</li>
+                <li><strong>Authorization: Bearer [토큰값]</strong></li>
+                <li>토큰이 만료되면 다시 로그인하여 새 토큰을 발급받으세요.</li>
+                <li>보안을 위해 토큰을 안전한 곳에 보관하세요.</li>
+            </ul>
+        </div>
+        
+        <div class="button-container">
+            <a href="/main" class="action-button">메인 화면으로</a>
+            <a href="/auth/logout" class="action-button secondary">로그아웃</a>
+        </div>
+    </div>
+
+    <script>
+        function copyToken() {
+            const tokenValue = document.getElementById('tokenValue');
+            const token = tokenValue.textContent;
+            
+            navigator.clipboard.writeText(token).then(function() {
+                const button = document.querySelector('.copy-button');
+                const originalText = button.textContent;
+                button.textContent = '복사됨!';
+                button.style.backgroundColor = '#28a745';
+                
+                setTimeout(function() {
+                    button.textContent = originalText;
+                    button.style.backgroundColor = '#007bff';
+                }, 2000);
+            }).catch(function(err) {
+                console.error('토큰 복사 실패:', err);
+                alert('토큰 복사에 실패했습니다. 수동으로 복사해주세요.');
+            });
+        }
+        
+        // 토큰을 브라우저 로컬 스토리지에 저장
+        window.addEventListener('DOMContentLoaded', function() {
+            const token = document.getElementById('tokenValue').textContent;
+            localStorage.setItem('authToken', token);
+            console.log('토큰이 로컬 스토리지에 저장되었습니다.');
+        });
+    </script>
+</body>
+</html> 

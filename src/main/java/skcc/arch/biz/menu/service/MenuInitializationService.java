@@ -59,6 +59,7 @@ public class MenuInitializationService {
         Menu 코드관리 = createMenu("코드관리", 공통업무.getId(), 4, "/code/list");
         Menu 파일관리 = createMenu("파일관리", 공통업무.getId(), 5, "/file/upload");
         Menu 로그관리 = createMenu("로그관리", 공통업무.getId(), 6, "/log/system");
+        Menu 토큰관리 = createMenu("토큰관리", 공통업무.getId(), 7, "/token/list");
     }
 
     private Menu createMenu(String name, Long parentId, int order, String url) {

@@ -17,6 +17,7 @@ import skcc.arch.app.exception.ErrorCode;
 import skcc.arch.app.util.HttpResponseUtil;
 import skcc.arch.app.util.JwtUtil;
 import skcc.arch.biz.user.service.CustomUserDetailService;
+import skcc.arch.biz.token.service.TokenService;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,6 +46,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final CustomUserDetailService customUserDetailService;
     private final JwtUtil jwtUtil;
+    private final TokenService tokenService;
     private final List<String> authWhitelist;
     private final AntPathMatcher antPathMatcher;
 
@@ -52,8 +54,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
+        String requestPath = request.getRequestURI();
+        log.debug("JWT FILTER START - JWT 토큰 필터 시작. path: {}", requestPath);
+
         // 요청 경로가 화이트리스트에 포함되어 있을경우 JWT Token 검증 Skip
-        if (isWhitelisted(request.getRequestURI())) {
+        if (isWhitelisted(requestPath)) {
+            log.debug("JWT FILTER - 화이트리스트 경로, 토큰 검증 스킵. path: {}", requestPath);
             chain.doFilter(request, response);
             return;
         }
@@ -65,12 +71,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // 1. HTTP 요청의 Authorization 헤더에서 JWT 토큰 추출
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
+            log.debug("JWT FILTER - Authorization 헤더에서 토큰 추출 완료. path: {}", requestPath);
 
             try {
-                // 2. JWT 토큰 검증 및 UID 추출
-                uid = jwtUtil.validateTokenAndExtractUID(token);
+                // 2. 토큰 검증 및 사용자 ID 추출 (성능 최적화)
+                uid = tokenService.validateTokenAndExtractUserId(token);
+                log.debug("JWT FILTER - 토큰 검증 및 사용자 ID 추출 완료. userId: {}, path: {}", uid, requestPath);
+                
                 if (uid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    // 3. UID(이메일)로 사용자 정보 조회
+                    // 3. UID로 사용자 정보 조회
                     UserDetails userDetails = customUserDetailService.loadUserByUsername(uid);
                     if (userDetails != null) {
                         // 4. Security 인증 토큰 생성
@@ -78,24 +87,28 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         // 5. Security Context에 인증 정보 설정
                         SecurityContextHolder.getContext().setAuthentication(authToken);
+                        log.debug("JWT FILTER SUCCESS - Security Context 인증 설정 완료. userId: {}, path: {}", uid, requestPath);
                     }
                 }
             } catch (CustomException e) {
-                log.error("Invalid JWT Token : {}" , e.getMessage());
+                log.error("JWT FILTER ERROR - 커스텀 예외 발생. path: {}, error: {}", requestPath, e.getMessage());
                 ApiResponse<Void> failResponse = ApiResponse.fail(e);
                 HttpResponseUtil.writeResponseBody(response,failResponse);
                 return;
             } catch (Exception e) {
-                ApiResponse<Void> failResponse = ApiResponse.fail(e);
+                log.error("JWT FILTER ERROR - 예상치 못한 예외 발생. path: {}, error: {}", requestPath, e.getMessage(), e);
+                ApiResponse<Void> failResponse = ApiResponse.fail(new CustomException(ErrorCode.JWT_INVALID));
                 HttpResponseUtil.writeResponseBody(response,failResponse);
                 return;
             }
         } else {
+            log.warn("JWT FILTER FAILED - Authorization 헤더가 없거나 Bearer 토큰 형식이 아님. path: {}", requestPath);
             ApiResponse<Void> failResponse = ApiResponse.fail(new CustomException(ErrorCode.JWT_NOT_FOUND));
             HttpResponseUtil.writeResponseBody(response,failResponse);
             return;
         }
 
+        log.debug("JWT FILTER END - JWT 토큰 필터 완료. userId: {}, path: {}", uid, requestPath);
         chain.doFilter(request, response);
     }
 

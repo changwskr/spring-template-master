@@ -220,6 +220,11 @@
                     <div style="font-weight: bold;">사용자 관리</div>
                     <div style="font-size: 12px; opacity: 0.9;">사용자 등록/조회</div>
                 </a>
+                <a href="/token/list" class="quick-access-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div style="font-size: 24px; margin-bottom: 8px;">🔐</div>
+                    <div style="font-weight: bold;">토큰 관리</div>
+                    <div style="font-size: 12px; opacity: 0.9;">토큰 조회/관리</div>
+                </a>
             </div>
         </div>
         
@@ -238,6 +243,79 @@
     </div>
 
     <script>
+        // 토큰 관리 함수들
+        function getStoredToken() {
+            return localStorage.getItem('authToken');
+        }
+        
+        function setAuthHeader(token) {
+            // 모든 AJAX 요청에 토큰 헤더 자동 추가
+            const originalFetch = window.fetch;
+            window.fetch = function(url, options = {}) {
+                options.headers = options.headers || {};
+                if (token) {
+                    options.headers['Authorization'] = 'Bearer ' + token;
+                }
+                return originalFetch(url, options);
+            };
+        }
+        
+        // 페이지 로드 시 토큰 설정
+        window.addEventListener('DOMContentLoaded', function() {
+            const token = getStoredToken();
+            if (token) {
+                setAuthHeader(token);
+                console.log('토큰이 HTTP 헤더에 설정되었습니다.');
+                
+                // 토큰 상태 표시
+                const tokenStatus = document.createElement('div');
+                tokenStatus.id = 'tokenStatus';
+                tokenStatus.style.cssText = `
+                    position: fixed;
+                    top: 10px;
+                    right: 10px;
+                    background-color: #28a745;
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    z-index: 1000;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                `;
+                tokenStatus.textContent = '🔐 토큰 활성화';
+                document.body.appendChild(tokenStatus);
+                
+                // 5초 후 토큰 상태 표시 숨기기
+                setTimeout(() => {
+                    tokenStatus.style.display = 'none';
+                }, 5000);
+            } else {
+                console.warn('저장된 토큰이 없습니다. 로그인이 필요할 수 있습니다.');
+                
+                // 토큰 없음 상태 표시
+                const noTokenStatus = document.createElement('div');
+                noTokenStatus.style.cssText = `
+                    position: fixed;
+                    top: 10px;
+                    right: 10px;
+                    background-color: #dc3545;
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    z-index: 1000;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                `;
+                noTokenStatus.textContent = '⚠️ 토큰 없음';
+                document.body.appendChild(noTokenStatus);
+                
+                // 5초 후 상태 표시 숨기기
+                setTimeout(() => {
+                    noTokenStatus.style.display = 'none';
+                }, 5000);
+            }
+        });
+        
         // 메뉴 클릭 처리 함수
         function handleMenuClick(event, element) {
             // 클릭된 메뉴에 로딩 상태 표시

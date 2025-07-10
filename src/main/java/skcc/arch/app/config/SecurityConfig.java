@@ -18,6 +18,7 @@ import skcc.arch.app.handler.CustomAccessDeniedHandler;
 import skcc.arch.app.handler.CustomAuthenticationEntryPoint;
 import skcc.arch.app.util.JwtUtil;
 import skcc.arch.biz.user.service.CustomUserDetailService;
+import skcc.arch.biz.token.service.TokenService;
 
 import java.util.List;
 
@@ -30,31 +31,21 @@ public class SecurityConfig {
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final CustomUserDetailService customUserDetailService;
+    private final TokenService tokenService;
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
     private final JwtUtil jwtUtil;
     private static final String[] AUTH_WHITELIST = {
-            "/**", // 테스트용으로 모든 경로 허용
-            // FIXME - 타임리프(추후제거)
-            "/","/login", "/register",
-            "/auth/login", "/auth/logout", "/auth/login-management",
-            "/main", "/user/**", "/common/**",  // 메인 페이지와 사용자 관리, 공통 페이지 추가
-            "/receive/**", "/credit/**",  // 수신, 여신 메뉴 추가
-            "/code/**", "/file/**", "/log/**",  // 코드관리, 파일관리, 로그관리 추가
-            // FIXME - 정적파일(추후제거)
+            // 로그인 관련
+            "/", "/auth/login", "/auth/logout", "/login-success", "/error/**",
+            // 정적 파일
             "/css/**", "/js/**", "/images/**", "/favicon.ico",
+            // 공개 API
+            "/api/users/signup", "/api/users/authenticate",
             // Swagger UI 관련
-            "/swagger-ui/**", 
-            "/swagger-ui.html",
-            "/v3/api-docs/**",
-            "/swagger-resources/**",
-            "/webjars/**",
-            // 캐시, 파일, 로그, 인증
-            "/api/cache/**",
-            "/api/log/**",
-            "/api/refresh-menus",
-            "/api/debug-menus",
-            "/api/users/signup",
-            "/api/users/authenticate"
+            "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", 
+            "/swagger-resources/**", "/webjars/**",
+            // H2 콘솔 (개발용)
+            "/h2-console/**"
     };
 
     @Bean
@@ -72,7 +63,7 @@ public class SecurityConfig {
 
 
                 // JWT 요청 필터를 UsernamePasswordAuthenticationFilter 전에 추가
-                .addFilterBefore(new JwtRequestFilter(customUserDetailService, jwtUtil, List.of(AUTH_WHITELIST), antPathMatcher), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtRequestFilter(customUserDetailService, jwtUtil, tokenService, List.of(AUTH_WHITELIST), antPathMatcher), UsernamePasswordAuthenticationFilter.class)
 
 
                 .exceptionHandling((exceptionHandling) -> exceptionHandling
