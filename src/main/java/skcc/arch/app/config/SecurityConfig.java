@@ -37,10 +37,14 @@ public class SecurityConfig {
     private static final String[] AUTH_WHITELIST = {
             // 로그인 관련
             "/", "/auth/login", "/auth/logout", "/login-success", "/error/**",
+            // 메인 화면 (로그인 후 기본 대시보드)
+            "/main",
             // 정적 파일
             "/css/**", "/js/**", "/images/**", "/favicon.ico",
             // 공개 API
             "/api/users/signup", "/api/users/authenticate",
+            // 디버깅 API (토큰 문제 해결용)
+            "/api/debug-token", "/api/debug-users", "/api/create-test-user",
             // Swagger UI 관련
             "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", 
             "/swagger-resources/**", "/webjars/**",

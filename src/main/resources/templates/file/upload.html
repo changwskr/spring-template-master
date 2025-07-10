@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>파일 업로드</title>
+    <!-- JWT 토큰 전역 인터셉터 (인라인) -->
     <style>
         * {
             margin: 0;
@@ -327,6 +328,9 @@
             </div>
         </div>
     </div>
+
+    <!-- JWT 토큰 전역 인터셉터 -->
+    <script src="/js/jwt-interceptor.js"></script>
 
     <script>
         function switchTab(tab) {

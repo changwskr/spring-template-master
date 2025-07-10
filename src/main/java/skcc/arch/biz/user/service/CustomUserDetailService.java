@@ -54,4 +54,27 @@ public class CustomUserDetailService implements UserDetailsService {
                 .roles(roleArr)
                 .build();
     }
+    
+    /**
+     * 주어진 사용자 ID를 통해 사용자 세부 정보를 로드합니다. (JWT 토큰 검증용)
+     *
+     * @param userId 로드할 사용자의 ID
+     * @return Spring Security를 위한 사용자 자격증명 및 역할이 포함된 UserDetails
+     * @throws UsernameNotFoundException 지정된 사용자 ID의 사용자를 찾을 수 없는 경우 예외가 발생합니다.
+     */
+    @Transactional
+    public UserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
+        // 사용자 ID로 사용자를 찾을 수 없으면 사용자 정의 예외를 던집니다.
+        User myUser = userRepositoryPort.findByUserId(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ELEMENT));
+
+        List<UserRole> userRoleList = userRoleRepositoryPort.findByUserId(myUser.getId());
+        String[] roleArr = userRoleList.stream().map(item->item.getRole().getRoleId()).toArray(String[]::new);
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(myUser.getUserId()) // JWT에서는 userId를 username으로 사용
+                .password(myUser.getPassword())
+                .roles(roleArr)
+                .build();
+    }
 }

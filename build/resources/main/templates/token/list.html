@@ -491,6 +491,9 @@
         </div>
     </div>
 
+    <!-- JWT 토큰 전역 인터셉터 -->
+    <script src="/js/jwt-interceptor.js"></script>
+
     <script>
         // 페이지 새로고침
         function refreshPage() {
@@ -668,30 +671,6 @@
             }
             
             window.location.href = '/token/list?' + params.toString();
-        });
-
-        // 토큰 헤더 설정
-        function getStoredToken() {
-            return localStorage.getItem('authToken');
-        }
-        
-        function setAuthHeader(token) {
-            const originalFetch = window.fetch;
-            window.fetch = function(url, options = {}) {
-                options.headers = options.headers || {};
-                if (token) {
-                    options.headers['Authorization'] = 'Bearer ' + token;
-                }
-                return originalFetch(url, options);
-            };
-        }
-
-        // 페이지 로드시 토큰 설정
-        window.addEventListener('DOMContentLoaded', function() {
-            const token = getStoredToken();
-            if (token) {
-                setAuthHeader(token);
-            }
         });
     </script>
 </body>

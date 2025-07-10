@@ -160,7 +160,7 @@
         </div>
         
         <div class="button-container">
-            <a href="/main" class="action-button">메인 화면으로</a>
+            <button onclick="goToMain()" class="action-button">메인 화면으로</button>
             <a href="/auth/logout" class="action-button secondary">로그아웃</a>
         </div>
     </div>
@@ -192,6 +192,49 @@
             localStorage.setItem('authToken', token);
             console.log('토큰이 로컬 스토리지에 저장되었습니다.');
         });
+        
+        // 메인화면으로 이동 (JWT 토큰과 함께)
+        function goToMain() {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert('토큰이 없습니다. 다시 로그인해주세요.');
+                window.location.href = '/auth/login';
+                return;
+            }
+            
+            // Authorization 헤더와 함께 메인화면 요청
+            fetch('/main', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('메인화면 로드에 실패했습니다: ' + response.status);
+                }
+            })
+            .then(html => {
+                // 메인화면 HTML을 받았으면 페이지 전체를 교체
+                document.open();
+                document.write(html);
+                document.close();
+                
+                // URL을 메인화면으로 변경 (뒤로가기 지원)
+                window.history.pushState({}, '', '/main');
+            })
+            .catch(error => {
+                console.error('메인화면 로드 오류:', error);
+                alert('메인화면 로드에 실패했습니다. 직접 이동합니다.');
+                // 실패 시 일반적인 방법으로 이동 (방법 1의 화이트리스트 추가로 인해 가능)
+                window.location.href = '/main';
+            });
+        }
     </script>
+    <!-- JWT 토큰 전역 인터셉터 -->
+    <script src="/js/jwt-interceptor.js"></script>
 </body>
 </html> 

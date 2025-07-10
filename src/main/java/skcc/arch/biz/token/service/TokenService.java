@@ -3,13 +3,16 @@ package skcc.arch.biz.token.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skcc.arch.app.exception.CustomException;
 import skcc.arch.app.exception.ErrorCode;
-import skcc.arch.app.util.JwtUtil;
 import skcc.arch.biz.token.domain.Token;
-import skcc.arch.biz.token.infrastructure.jpa.TokenRepository;
+import skcc.arch.biz.token.service.port.JwtProviderPort;
+import skcc.arch.biz.token.service.port.TokenManagementPort;
+import skcc.arch.biz.token.service.port.TokenRepositoryPort;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -20,10 +23,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class TokenService {
+public class TokenService implements TokenManagementPort {
     
-    private final TokenRepository tokenRepository;
-    private final JwtUtil jwtUtil;
+    private final TokenRepositoryPort tokenRepository;
+    private final JwtProviderPort jwtProvider;
     
     @Value("${token.expiration-hours:24}")
     private int tokenExpirationHours;
@@ -44,7 +47,7 @@ public class TokenService {
             log.debug("TOKEN CREATE - JWT 토큰 생성 시작. userId: {}", userId);
             Map<String, Object> claims = new HashMap<>();
             claims.put("uid", userId);
-            String tokenValue = jwtUtil.generateToken(claims);
+            String tokenValue = jwtProvider.generateToken(claims);
             log.debug("TOKEN CREATE - JWT 토큰 생성 완료. userId: {}", userId);
             
             // 토큰 저장 (설정된 시간 만료)
@@ -79,7 +82,7 @@ public class TokenService {
         claims.put("username", username);
         claims.put("email", email);
         claims.put("role", roles);
-        String tokenValue = jwtUtil.generateToken(claims);
+        String tokenValue = jwtProvider.generateToken(claims);
         
         // 토큰 저장 (설정된 시간 만료)
         Token token = Token.builder()
@@ -101,7 +104,7 @@ public class TokenService {
     public boolean validateToken(String tokenValue) {
         try {
             // JWT 토큰 자체 검증
-            String userId = jwtUtil.validateTokenAndExtractUID(tokenValue);
+            String userId = jwtProvider.validateTokenAndExtractUID(tokenValue);
             
             // DB에서 토큰 조회
             Optional<Token> tokenOpt = tokenRepository.findByTokenValue(tokenValue);
@@ -144,7 +147,7 @@ public class TokenService {
         try {
             // JWT 토큰 자체 검증
             log.debug("TOKEN VALIDATE - JWT 토큰 자체 검증 시작");
-            String userId = jwtUtil.validateTokenAndExtractUID(tokenValue);
+            String userId = jwtProvider.validateTokenAndExtractUID(tokenValue);
             log.debug("TOKEN VALIDATE - JWT 토큰 자체 검증 완료. userId: {}", userId);
             
             // DB에서 토큰 조회
@@ -360,6 +363,77 @@ public class TokenService {
             }
         } catch (Exception e) {
             log.error("TOKEN CLEANUP ERROR - 만료된 토큰 정리 중 오류 발생: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+    
+    /**
+     * 토큰 ID로 토큰 조회
+     */
+    @Override
+    public Optional<Token> findTokenById(Long tokenId) {
+        log.debug("TOKEN FIND START - 토큰 ID로 조회. tokenId: {}", tokenId);
+        try {
+            Optional<Token> token = tokenRepository.findById(tokenId);
+            log.debug("TOKEN FIND SUCCESS - 토큰 조회 완료. tokenId: {}, found: {}", tokenId, token.isPresent());
+            return token;
+        } catch (Exception e) {
+            log.error("TOKEN FIND ERROR - 토큰 조회 중 오류 발생. tokenId: {}, error: {}", tokenId, e.getMessage(), e);
+            throw e;
+        }
+    }
+    
+    /**
+     * 조건에 따른 토큰 조회
+     */
+    @Override
+    public Page<Token> findTokensByCondition(String userId, Boolean isActive, Pageable pageable) {
+        log.debug("TOKEN FIND CONDITION START - 조건별 토큰 조회. userId: {}, isActive: {}", userId, isActive);
+        
+        try {
+            Page<Token> tokens;
+            
+            if (userId != null && !userId.trim().isEmpty() && isActive != null) {
+                tokens = tokenRepository.findByUserIdContainingAndIsActive(userId.trim(), isActive, pageable);
+            } else if (userId != null && !userId.trim().isEmpty()) {
+                tokens = tokenRepository.findByUserIdContaining(userId.trim(), pageable);
+            } else if (isActive != null) {
+                tokens = tokenRepository.findByIsActive(isActive, pageable);
+            } else {
+                tokens = tokenRepository.findAll(pageable);
+            }
+            
+            log.debug("TOKEN FIND CONDITION SUCCESS - 조건별 토큰 조회 완료. 결과 수: {}", tokens.getTotalElements());
+            return tokens;
+            
+        } catch (Exception e) {
+            log.error("TOKEN FIND CONDITION ERROR - 조건별 토큰 조회 중 오류 발생. userId: {}, isActive: {}, error: {}", userId, isActive, e.getMessage(), e);
+            throw e;
+        }
+    }
+    
+    /**
+     * 토큰 통계 조회
+     */
+    @Override
+    public TokenStatistics getTokenStatistics() {
+        log.debug("TOKEN STATISTICS START - 토큰 통계 조회 시작");
+        
+        try {
+            long totalTokens = tokenRepository.count();
+            long activeTokens = tokenRepository.countByIsActive(true);
+            long inactiveTokens = tokenRepository.countByIsActive(false);
+            long expiredTokens = tokenRepository.findExpiredTokens(LocalDateTime.now()).size();
+            
+            TokenStatistics statistics = new TokenStatistics(totalTokens, activeTokens, inactiveTokens, expiredTokens);
+            
+            log.debug("TOKEN STATISTICS SUCCESS - 토큰 통계 조회 완료. 총: {}, 활성: {}, 비활성: {}, 만료: {}", 
+                    totalTokens, activeTokens, inactiveTokens, expiredTokens);
+            
+            return statistics;
+            
+        } catch (Exception e) {
+            log.error("TOKEN STATISTICS ERROR - 토큰 통계 조회 중 오류 발생: {}", e.getMessage(), e);
             throw e;
         }
     }

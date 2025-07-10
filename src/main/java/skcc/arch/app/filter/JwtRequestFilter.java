@@ -72,37 +72,66 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
             log.debug("JWT FILTER - Authorization 헤더에서 토큰 추출 완료. path: {}", requestPath);
+        } else {
+            // 2. Authorization 헤더가 없으면 파라미터에서 토큰 추출 시도 (GET/POST 모두 지원)
+            String paramToken = request.getParameter("authToken");
+            if (paramToken != null && !paramToken.trim().isEmpty()) {
+                token = paramToken.trim();
+                log.debug("JWT FILTER - URL/폼 파라미터에서 토큰 추출 완료. method: {}, path: {}", 
+                        request.getMethod(), requestPath);
+            }
+        }
+
+        if (token != null) {
+            log.debug("JWT FILTER - 토큰 발견 (길이: {}). method: {}, path: {}", 
+                    token.length(), request.getMethod(), requestPath);
 
             try {
-                // 2. 토큰 검증 및 사용자 ID 추출 (성능 최적화)
+                // 3. 토큰 검증 및 사용자 ID 추출 (성능 최적화)
                 uid = tokenService.validateTokenAndExtractUserId(token);
-                log.debug("JWT FILTER - 토큰 검증 및 사용자 ID 추출 완료. userId: {}, path: {}", uid, requestPath);
+                log.debug("JWT FILTER - 토큰 검증 및 사용자 ID 추출 완료. userId: {}, method: {}, path: {}", 
+                        uid, request.getMethod(), requestPath);
                 
                 if (uid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    // 3. UID로 사용자 정보 조회
-                    UserDetails userDetails = customUserDetailService.loadUserByUsername(uid);
-                    if (userDetails != null) {
-                        // 4. Security 인증 토큰 생성
-                        UsernamePasswordAuthenticationToken authToken =
-                                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                        // 5. Security Context에 인증 정보 설정
-                        SecurityContextHolder.getContext().setAuthentication(authToken);
-                        log.debug("JWT FILTER SUCCESS - Security Context 인증 설정 완료. userId: {}, path: {}", uid, requestPath);
+                    try {
+                        // 4. UID로 사용자 정보 조회 (userId 기반 조회)
+                        log.debug("JWT FILTER - 사용자 정보 조회 시작. 추출된 userId: '{}', method: {}, path: {}", 
+                                uid, request.getMethod(), requestPath);
+                        UserDetails userDetails = customUserDetailService.loadUserByUserId(uid);
+                        if (userDetails != null) {
+                            // 5. Security 인증 토큰 생성
+                            UsernamePasswordAuthenticationToken authToken =
+                                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                            // 6. Security Context에 인증 정보 설정
+                            SecurityContextHolder.getContext().setAuthentication(authToken);
+                            log.debug("JWT FILTER SUCCESS - Security Context 인증 설정 완료. userId: {}, method: {}, path: {}", 
+                                    uid, request.getMethod(), requestPath);
+                        } else {
+                            log.warn("JWT FILTER - UserDetails가 null입니다. userId: {}, method: {}, path: {}", 
+                                    uid, request.getMethod(), requestPath);
+                        }
+                    } catch (CustomException e) {
+                        log.error("JWT FILTER ERROR - 사용자 조회 실패. userId: '{}', method: {}, path: {}, errorCode: {}, message: {}", 
+                                uid, request.getMethod(), requestPath, e.getErrorCode().getCode(), e.getMessage());
+                        throw e; // 상위로 예외 전파
                     }
                 }
             } catch (CustomException e) {
-                log.error("JWT FILTER ERROR - 커스텀 예외 발생. path: {}, error: {}", requestPath, e.getMessage());
+                log.error("JWT FILTER ERROR - 커스텀 예외 발생. method: {}, path: {}, error: {}", 
+                        request.getMethod(), requestPath, e.getMessage());
                 ApiResponse<Void> failResponse = ApiResponse.fail(e);
                 HttpResponseUtil.writeResponseBody(response,failResponse);
                 return;
             } catch (Exception e) {
-                log.error("JWT FILTER ERROR - 예상치 못한 예외 발생. path: {}, error: {}", requestPath, e.getMessage(), e);
+                log.error("JWT FILTER ERROR - 예상치 못한 예외 발생. method: {}, path: {}, error: {}", 
+                        request.getMethod(), requestPath, e.getMessage(), e);
                 ApiResponse<Void> failResponse = ApiResponse.fail(new CustomException(ErrorCode.JWT_INVALID));
                 HttpResponseUtil.writeResponseBody(response,failResponse);
                 return;
             }
         } else {
-            log.warn("JWT FILTER FAILED - Authorization 헤더가 없거나 Bearer 토큰 형식이 아님. path: {}", requestPath);
+            log.warn("JWT FILTER FAILED - Authorization 헤더와 파라미터 모두에서 토큰을 찾을 수 없음. method: {}, path: {}", 
+                    request.getMethod(), requestPath);
             ApiResponse<Void> failResponse = ApiResponse.fail(new CustomException(ErrorCode.JWT_NOT_FOUND));
             HttpResponseUtil.writeResponseBody(response,failResponse);
             return;
